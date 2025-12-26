@@ -6,28 +6,17 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// 입력 관리를 위한 매니저
 /// </summary>
-[RequireComponent(typeof(PlayerInput))]
 public class InputManager : GenericSingleton<InputManager>
 {
     #region >--------------------------------------------- fields & Properties
 
     // Player Input & Action Maps
     private PlayerInput _playerInput;
-    private InputActionMap _playerActionMap;
-    private InputActionMap _uiActionMap;
-
-    // Action Map Cashes
-    public static readonly string PLAYER_ACTION_MAP = "Player";
-    public static readonly string UI_ACTION_MAP = "UI";
-
-    // Actions Cashes
-    private static readonly string MOVE_ACTION = "Move";
-    private static readonly string ESC_ACTION = "ESC";
 
     // 한 번 입력되는 것은 이벤트로, 지속 입력되는 것은 프로퍼티로 처리
     // Properties
     public Vector2 moveInput { get; private set; }
-    
+
     // Events
     public event Action OnESCAction;
 
@@ -38,69 +27,60 @@ public class InputManager : GenericSingleton<InputManager>
     protected override void Awake()
     {
         base.Awake();
-        _playerInput = GetComponent<PlayerInput>();
+        _playerInput = new PlayerInput();
     }
 
+    /// <summary>
+    /// 액션 맵 추가 및 이벤트 등록은 OnEnable에서 처리
+    /// </summary>
     private void OnEnable()
     {
-        // 모든 액션맵 비활성화
-        foreach (var map in _playerInput.actions.actionMaps)
-            map.Disable();
-
-        // 원하는 액션맵만 활성화 및 캐싱
-        _playerActionMap = _playerInput.actions.FindActionMap(PLAYER_ACTION_MAP);
-        _uiActionMap = _playerInput.actions.FindActionMap(UI_ACTION_MAP);
-
-        _playerActionMap.Enable();
-
-        // 이벤트 등록
-        _playerActionMap.FindAction(MOVE_ACTION).performed += OnMovePerformed;
-        _playerActionMap.FindAction(MOVE_ACTION).canceled += OnMoveCanceled;
-        _uiActionMap.FindAction(ESC_ACTION).started += OnESCStarted;
+        _playerInput.Player.Move.performed += OnMovePerformed;
+        _playerInput.Player.Move.canceled += OnMoveCanceled;
+        _playerInput.UI.ESC.started += OnESCStarted;
     }
 
+    /// <summary>
+    /// 액션 맵 해제 및 이벤트 해제는 OnDisable에서 처리
+    /// </summary>
     private void OnDisable()
     {
-        // 이벤트 해제
-        if (_playerActionMap != null)
-        {
-            _playerActionMap.FindAction(MOVE_ACTION).performed -= OnMovePerformed;
-            _playerActionMap.FindAction(MOVE_ACTION).canceled -= OnMoveCanceled;
-        }
-        if (_uiActionMap != null)
-        {
-            _uiActionMap.FindAction(ESC_ACTION).started -= OnESCStarted;
-        }
+        _playerInput.Player.Move.performed -= OnMovePerformed;
+        _playerInput.Player.Move.canceled -= OnMoveCanceled;
+        _playerInput.UI.ESC.started -= OnESCStarted;
     }
-    
+
+    private void OnDestroy()
+    {
+        _playerInput.Dispose();
+    }
+
     #endregion
 
     #region >--------------------------------------------- Set
 
     /// <summary>
-    /// 액션맵 전환
+    /// 액션맵 전환 - 외부에서 호출
     /// </summary>
     /// <param name="actionMapName">액션맵 캐싱 이름</param>
     public void SetActionMap(string actionMapName)
     {
         if (_playerInput == null) return;
 
-        // 기존 이벤트 해제
-        _playerActionMap.asset.FindAction(MOVE_ACTION).performed -= OnMovePerformed;
-        _playerActionMap.asset.FindAction(MOVE_ACTION).canceled -= OnMoveCanceled;
-        _uiActionMap.asset.FindAction(ESC_ACTION).started -= OnESCStarted;
+        // 모든 액션맵 비활성화
+        _playerInput.Player.Disable();
+        _playerInput.UI.Disable();
 
-        _playerInput.SwitchCurrentActionMap(actionMapName);
-
-        // 새 액션맵에 맞는 이벤트만 등록
-        if (actionMapName == PLAYER_ACTION_MAP)
+        // 원하는 액션맵만 활성화
+        switch (actionMapName)
         {
-            _playerActionMap.asset.FindAction(MOVE_ACTION).performed += OnMovePerformed;
-            _playerActionMap.asset.FindAction(MOVE_ACTION).canceled += OnMoveCanceled;
-        }
-        else if (actionMapName == UI_ACTION_MAP)
-        {
-            _uiActionMap.asset.FindAction(ESC_ACTION).started += OnESCStarted;
+            case "Player":
+                _playerInput.Player.Enable();
+                break;
+            case "UI":
+                _playerInput.UI.Enable();
+                break;
+            // 필요시 다른 액션맵 추가
         }
     }
 
@@ -120,9 +100,9 @@ public class InputManager : GenericSingleton<InputManager>
 
     private void OnMoveCanceled(InputAction.CallbackContext context)
     {
-        moveInput= Vector3.zero;
+        moveInput = Vector3.zero;
     }
-    
+
     /// <summary>
     /// 일회성 입력은 이벤트로 처리
     /// </summary>
