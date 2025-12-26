@@ -6,10 +6,10 @@ public class ProjectSettingWindow : EditorWindow
 {
     #region >--------------------------------------------- GUI
 
-    [MenuItem("Tools/Manager Spawner")]
+    [MenuItem("Tools/Project Setting Window")]
     public static void ShowWindow()
     {
-        GetWindow<ProjectSettingWindow>("Manager Spawner");
+        GetWindow<ProjectSettingWindow>("Project Setting");
     }
 
     private void OnGUI()
