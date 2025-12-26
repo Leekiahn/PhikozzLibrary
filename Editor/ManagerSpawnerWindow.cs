@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using System.IO;
 
 public class ManagerSpawnerWindow : EditorWindow
 {
@@ -19,18 +20,28 @@ public class ManagerSpawnerWindow : EditorWindow
 
     private void SpawnAllPrefabs()
     {
-        // 패키지 경로를 전체 경로로 지정
         string prefabFolder = "Packages/com.phikozz.phikozzlibrary/Prefabs";
+        string tempFolder = "Assets/TempSpawnedPrefabs";
+
+        if (!AssetDatabase.IsValidFolder(tempFolder))
+            AssetDatabase.CreateFolder("Assets", "Scripts/Managers");
+
         string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { prefabFolder });
 
         foreach (string guid in guids)
         {
             string assetPath = AssetDatabase.GUIDToAssetPath(guid);
-            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+            string fileName = Path.GetFileName(assetPath);
+            string destPath = Path.Combine(tempFolder, fileName).Replace("\\", "/");
+
+            AssetDatabase.CopyAsset(assetPath, destPath);
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(destPath);
             if (prefab != null)
             {
                 PrefabUtility.InstantiatePrefab(prefab);
             }
         }
+
+        AssetDatabase.Refresh();
     }
 }
