@@ -12,11 +12,11 @@ namespace PhikozzLibrary
 
         private static T _instance;
 
-        public static T Instance
+        internal static T Instance
         {
             get
             {
-                _instance = FindObjectOfType<T>();  // 씬에서 기존 인스턴스 찾기
+                _instance = FindFirstObjectByType<T>();  // 씬에서 기존 인스턴스 찾기 (최신 API)
                 if (_instance == null)  // 없으면 새로 생성
                 {
                     GameObject singleton = new GameObject();
