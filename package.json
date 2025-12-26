@@ -1,8 +1,8 @@
 {
   "name": "com.phikozz.phikozzlibrary",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "PhikozzLibrary",
-  "description": "설명 추가 예정",
+  "description": "프로젝트 초기 세팅을 도와주는 유니티 패키지입니다.",
   "unity": "6000.0",
   "documentationUrl": "https://example.com/",
   "keywords": [
