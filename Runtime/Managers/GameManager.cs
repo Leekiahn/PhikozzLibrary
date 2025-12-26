@@ -1,0 +1,69 @@
+using System;
+using UnityEngine;
+using PhikozzLibrary.Manager;
+
+public enum eGameState
+{
+    None,
+    Playing,
+    Paused,
+    GameOver
+}
+
+public class GameManager : GenericSingleton<GameManager>
+{
+    #region >--------------------------------------------- fields & Properties
+
+    public eGameState State { get; private set; } = eGameState.None;
+    public event Action<eGameState> OnGameStateChanged;
+
+    #endregion
+
+    #region >--------------------------------------------- Set
+
+    /// <summary>
+    /// 게임 상태 설정
+    /// </summary>
+    /// <param name="newState">게임 상태 열거형</param>
+    private void SetGameState(eGameState newState)
+    {
+        if (State == newState) return;
+        State = newState;
+        OnGameStateChanged?.Invoke(State);
+    }
+
+    #endregion
+
+    #region >--------------------------------------------- Core
+
+    /// <summary>
+    /// 일시정지, 재개, 종료, 재시작 기능
+    /// </summary>
+    public void PauseGame()
+    {
+        // 일시정지 로직
+        SetGameState(eGameState.Paused);
+        Time.timeScale = 0f; // 게임 시간 정지
+    }
+
+    public void ResumeGame()
+    {
+        // 재개 로직
+        SetGameState(eGameState.Playing);
+        Time.timeScale = 1f; // 게임 시간 재개
+    }
+
+    public void EndGame()
+    {
+        // 게임 종료 로직
+        SetGameState(eGameState.GameOver);
+    }
+
+    public void RestartGame()
+    {
+        // 게임 재시작 로직
+        SetGameState(eGameState.Playing);
+    }
+
+    #endregion
+}
