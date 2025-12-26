@@ -1,18 +1,20 @@
 using PhikozzLibrary;
 using UnityEngine;
 
-
+/// <summary>
+/// 효과음 (SFX) 관리를 위한 매니저
+/// </summary>
 public class SFXManager : GenericSingleton<SFXManager>
 {
     #region >--------------------------------------------- fields & Properties
 
-    private AudioSource _audioSource;
+    private static AudioSource _audioSource;
 
     #endregion
     
     #region >--------------------------------------------- Unity
 
-    private void Awake()
+    protected override void Awake()
     {
         base.Awake();
         _audioSource = gameObject.AddComponent<AudioSource>();
@@ -23,7 +25,12 @@ public class SFXManager : GenericSingleton<SFXManager>
 
     #region >--------------------------------------------- Play
 
-    public void PlaySFX(AudioClip clip, float volume = 1.0f)
+    /// <summary>
+    /// 효과음 재생
+    /// </summary>
+    /// <param name="clip">리소스 매니저를 통해 불러온 AudioClip</param>
+    /// <param name="volume">볼륨</param>
+    public static void PlaySFX(AudioClip clip, float volume = 1.0f)
     {
         _audioSource.PlayOneShot(clip, volume);
     }

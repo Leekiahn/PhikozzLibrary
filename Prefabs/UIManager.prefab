@@ -45,6 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85cf32f0f7673874eaa1ef8e86e08231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _uiPanels:
+  - panelName: Pause
+    panelObject: {fileID: 0}
+  - panelName: GameOver
+    panelObject: {fileID: 0}
 --- !u!82 &-1457037075808392284
 AudioSource:
   m_ObjectHideFlags: 0
