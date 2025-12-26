@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using PhikozzLibrary.Manager;
+using PhikozzLibrary;
 
 public enum eGameState
 {
@@ -14,7 +14,7 @@ public class GameManager : GenericSingleton<GameManager>
 {
     #region >--------------------------------------------- fields & Properties
 
-    public eGameState State { get; private set; } = eGameState.None;
+    private eGameState _state = eGameState.None;
     public event Action<eGameState> OnGameStateChanged;
 
     #endregion
@@ -27,9 +27,9 @@ public class GameManager : GenericSingleton<GameManager>
     /// <param name="newState">게임 상태 열거형</param>
     private void SetGameState(eGameState newState)
     {
-        if (State == newState) return;
-        State = newState;
-        OnGameStateChanged?.Invoke(State);
+        if (_state == newState) return;
+        _state = newState;
+        OnGameStateChanged?.Invoke(_state);
     }
 
     #endregion
