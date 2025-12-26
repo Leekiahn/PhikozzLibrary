@@ -4,11 +4,12 @@ using UnityEngine;
 /// <summary>
 /// 효과음 (SFX) 관리를 위한 매니저
 /// </summary>
+[RequireComponent(typeof(AudioSource))]
 public class SFXManager : GenericSingleton<SFXManager>
 {
     #region >--------------------------------------------- fields & Properties
 
-    private static AudioSource _audioSource;
+    private AudioSource _audioSource;
 
     #endregion
     
@@ -30,7 +31,7 @@ public class SFXManager : GenericSingleton<SFXManager>
     /// </summary>
     /// <param name="clip">리소스 매니저를 통해 불러온 AudioClip</param>
     /// <param name="volume">볼륨</param>
-    public static void PlaySFX(AudioClip clip, float volume = 1.0f)
+    public void PlaySFX(AudioClip clip, float volume = 1.0f)
     {
         _audioSource.PlayOneShot(clip, volume);
     }

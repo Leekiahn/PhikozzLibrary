@@ -4,11 +4,12 @@ using UnityEngine;
 /// <summary>
 /// 길이가 긴 배경음악(BGM) 관리를 위한 매니저
 /// </summary>
+[RequireComponent(typeof(AudioSource))]
 public class BGMManager : GenericSingleton<BGMManager>
 {
     #region >--------------------------------------------- fields & Properties
 
-    private static AudioSource _audioSource;
+    private AudioSource _audioSource;
 
     #endregion
 
@@ -30,7 +31,7 @@ public class BGMManager : GenericSingleton<BGMManager>
     /// </summary>
     /// <param name="clip">리소스매니저를 통해 불러온 AudioClip</param>
     /// <param name="volume">볼륨</param>
-    public static void PlayBGM(AudioClip clip, float volume = 1.0f)
+    public void PlayBGM(AudioClip clip, float volume = 1.0f)
     {
         if(_audioSource.clip == null) return;
         _audioSource.clip = clip;
@@ -41,7 +42,7 @@ public class BGMManager : GenericSingleton<BGMManager>
     /// <summary>
     /// BGM 정지
     /// </summary>
-    public static void StopBGM()
+    public void StopBGM()
     {
         _audioSource.Stop();
     }

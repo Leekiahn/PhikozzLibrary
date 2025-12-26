@@ -3,14 +3,18 @@ using PhikozzLibrary;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// 입력 관리를 위한 매니저
+/// </summary>
+[RequireComponent(typeof(PlayerInput))]
 public class InputManager : GenericSingleton<InputManager>
 {
     #region >--------------------------------------------- fields & Properties
 
     // Player Input & Action Maps
-    private static PlayerInput _playerInput;
-    private static InputActionMap _playerActionMap;
-    private static InputActionMap _uiActionMap;
+    private PlayerInput _playerInput;
+    private InputActionMap _playerActionMap;
+    private InputActionMap _uiActionMap;
 
     // Action Map Cashes
     public static readonly string PLAYER_ACTION_MAP = "Player";
@@ -22,10 +26,10 @@ public class InputManager : GenericSingleton<InputManager>
 
     // 한 번 입력되는 것은 이벤트로, 지속 입력되는 것은 프로퍼티로 처리
     // Properties
-    public static Vector2 moveInput { get; private set; }
+    public Vector2 moveInput { get; private set; }
     
     // Events
-    public static event Action OnESCAction;
+    public event Action OnESCAction;
 
     #endregion
 
@@ -35,10 +39,38 @@ public class InputManager : GenericSingleton<InputManager>
     {
         base.Awake();
         _playerInput = GetComponent<PlayerInput>();
+    }
 
-        // 액션맵 캐싱
+    private void OnEnable()
+    {
+        // 모든 액션맵 비활성화
+        foreach (var map in _playerInput.actions.actionMaps)
+            map.Disable();
+
+        // 원하는 액션맵만 활성화 및 캐싱
         _playerActionMap = _playerInput.actions.FindActionMap(PLAYER_ACTION_MAP);
         _uiActionMap = _playerInput.actions.FindActionMap(UI_ACTION_MAP);
+
+        _playerActionMap.Enable();
+
+        // 이벤트 등록
+        _playerActionMap.FindAction(MOVE_ACTION).performed += OnMovePerformed;
+        _playerActionMap.FindAction(MOVE_ACTION).canceled += OnMoveCanceled;
+        _uiActionMap.FindAction(ESC_ACTION).started += OnESCStarted;
+    }
+
+    private void OnDisable()
+    {
+        // 이벤트 해제
+        if (_playerActionMap != null)
+        {
+            _playerActionMap.FindAction(MOVE_ACTION).performed -= OnMovePerformed;
+            _playerActionMap.FindAction(MOVE_ACTION).canceled -= OnMoveCanceled;
+        }
+        if (_uiActionMap != null)
+        {
+            _uiActionMap.FindAction(ESC_ACTION).started -= OnESCStarted;
+        }
     }
     
     #endregion
@@ -49,7 +81,7 @@ public class InputManager : GenericSingleton<InputManager>
     /// 액션맵 전환
     /// </summary>
     /// <param name="actionMapName">액션맵 캐싱 이름</param>
-    public static void SetActionMap(string actionMapName)
+    public void SetActionMap(string actionMapName)
     {
         if (_playerInput == null) return;
 
@@ -80,13 +112,13 @@ public class InputManager : GenericSingleton<InputManager>
     /// 지속적인 입력은 프로퍼티로 값을 갱신
     /// </summary>
     /// <param name="context">콜백 컨텍스트</param>
-    private static void OnMovePerformed(InputAction.CallbackContext context)
+    private void OnMovePerformed(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
         Debug.Log(moveInput);
     }
 
-    private static void OnMoveCanceled(InputAction.CallbackContext context)
+    private void OnMoveCanceled(InputAction.CallbackContext context)
     {
         moveInput= Vector3.zero;
     }
@@ -95,9 +127,9 @@ public class InputManager : GenericSingleton<InputManager>
     /// 일회성 입력은 이벤트로 처리
     /// </summary>
     /// <param name="context">콜백 컨텍스트</param>
-    private static void OnESCStarted(InputAction.CallbackContext context)
+    private void OnESCStarted(InputAction.CallbackContext context)
     {
-        OnESCAction.Invoke();
+        OnESCAction?.Invoke();
     }
 
     #endregion

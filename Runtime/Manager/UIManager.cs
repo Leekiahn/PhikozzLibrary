@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using PhikozzLibrary;
 using UnityEngine;
-
+/// <summary>
+/// UI 관리 매니저
+/// </summary>
+[RequireComponent(typeof(AudioSource))]
 public class UIManager : GenericSingleton<UIManager>
 {
     #region >--------------------------------------------- fields & Properties
@@ -16,12 +19,9 @@ public class UIManager : GenericSingleton<UIManager>
     
     [SerializeField] private List<PanelInfo> _uiPanels = new List<PanelInfo>();
     
-    private static Dictionary<string, GameObject> _panelDict = new Dictionary<string, GameObject>();
+    private Dictionary<string, GameObject> _panelDict = new Dictionary<string, GameObject>();
     private AudioSource _audioSource;
     
-    public static readonly string PAUSE_PANEL = "Pause";
-    public static readonly string GAMEOVER_PANEL = "GameOver";
-
     #endregion
 
     #region >--------------------------------------------- Unity
@@ -32,15 +32,6 @@ public class UIManager : GenericSingleton<UIManager>
         _audioSource = gameObject.AddComponent<AudioSource>();
         SetCanvasTabs(_uiPanels);
     }
-
-    private void OnEnable()
-    {
-    }
-    
-    private void OnDisable()
-    {
-    }
-
 
     #endregion
 
@@ -83,7 +74,7 @@ public class UIManager : GenericSingleton<UIManager>
     /// 패널 보이기
     /// </summary>
     /// <param name="panelName">패널 이름 key</param>
-    public static void ShowPanel(string panelName)
+    public void ShowPanel(string panelName)
     {
         if (_panelDict.TryGetValue(panelName, out GameObject panel))
         {
@@ -99,7 +90,7 @@ public class UIManager : GenericSingleton<UIManager>
     /// 패널 하나만 보이기
     /// </summary>
     /// <param name="panelName">패널 이름 Key</param>
-    public static void ShowOnlyPanel(string panelName)
+    public void ShowOnlyPanel(string panelName)
     {
         foreach (var kvp in _panelDict)
         {
@@ -111,7 +102,7 @@ public class UIManager : GenericSingleton<UIManager>
     /// 패널 숨기기
     /// </summary>
     /// <param name="panelName">패널 이름 Key</param>
-    public static void HidePanel(string panelName)
+    public void HidePanel(string panelName)
     {
         if (_panelDict.TryGetValue(panelName, out GameObject panel))
         {
@@ -126,7 +117,7 @@ public class UIManager : GenericSingleton<UIManager>
     /// <summary>
     /// 패널 모두 숨기기
     /// </summary>
-    public static void HideAllPanels()
+    public void HideAllPanels()
     {
         foreach (var panel in _panelDict.Values)
         {

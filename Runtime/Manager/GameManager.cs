@@ -9,13 +9,15 @@ public enum eGameState
     Paused,
     GameOver
 }
-
+/// <summary>
+/// 게임 관리 매니저
+/// </summary>
 public class GameManager : GenericSingleton<GameManager>
 {
     #region >--------------------------------------------- fields & Properties
 
-    private static eGameState _state = eGameState.None;    // 현재 게임 상태
-    public static event Action<eGameState> OnGameStateChanged; // 게임 상태 변경 이벤트
+    private eGameState _state = eGameState.None;    // 현재 게임 상태
+    public event Action<eGameState> OnGameStateChanged; // 게임 상태 변경 이벤트
 
     #endregion
 
@@ -25,7 +27,7 @@ public class GameManager : GenericSingleton<GameManager>
     /// 게임 상태 설정
     /// </summary>
     /// <param name="newState">게임 상태 열거형</param>
-    private static void SetGameState(eGameState newState)
+    private void SetGameState(eGameState newState)
     {
         if (_state == newState) return;
         _state = newState;
@@ -39,27 +41,27 @@ public class GameManager : GenericSingleton<GameManager>
     /// <summary>
     /// 일시정지, 재개, 종료, 재시작 기능
     /// </summary>
-    public static void PauseGame()
+    public void PauseGame()
     {
         // 일시정지 로직
         SetGameState(eGameState.Paused);
         Time.timeScale = 0f; // 게임 시간 정지
     }
 
-    public static void ResumeGame()
+    public void ResumeGame()
     {
         // 재개 로직
         SetGameState(eGameState.Playing);
         Time.timeScale = 1f; // 게임 시간 재개
     }
 
-    public static void EndGame()
+    public void EndGame()
     {
         // 게임 종료 로직
         SetGameState(eGameState.GameOver);
     }
 
-    public static void RestartGame()
+    public void RestartGame()
     {
         // 게임 재시작 로직
         SetGameState(eGameState.Playing);
