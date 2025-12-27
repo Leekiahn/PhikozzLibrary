@@ -10,13 +10,13 @@ public class GameSceneManager : GenericSingleton<GameSceneManager>
 
     public void LoadScene(string sceneName)
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(sceneName);
     }
     
     public void ReloadCurrentScene()
     {
-        var currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene.name);
+        var currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
     }
     
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)

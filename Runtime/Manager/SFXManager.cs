@@ -20,6 +20,7 @@ public class SFXManager : GenericSingleton<SFXManager>
         base.Awake();
         _audioSource = gameObject.AddComponent<AudioSource>();
         _audioSource.loop = false;
+        _audioSource.playOnAwake = false;
     }
 
     #endregion

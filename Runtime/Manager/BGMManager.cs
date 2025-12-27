@@ -4,7 +4,6 @@ using UnityEngine;
 /// <summary>
 /// 길이가 긴 배경음악(BGM) 관리를 위한 매니저
 /// </summary>
-[RequireComponent(typeof(AudioSource))]
 public class BGMManager : GenericSingleton<BGMManager>
 {
     #region >--------------------------------------------- fields & Properties
@@ -20,6 +19,7 @@ public class BGMManager : GenericSingleton<BGMManager>
         base.Awake();
         _audioSource = gameObject.AddComponent<AudioSource>();
         _audioSource.loop = true;
+        _audioSource.playOnAwake = false;
     }
 
     #endregion
@@ -33,7 +33,6 @@ public class BGMManager : GenericSingleton<BGMManager>
     /// <param name="volume">볼륨</param>
     public void PlayBGM(AudioClip clip, float volume = 1.0f)
     {
-        if(_audioSource.clip == null) return;
         _audioSource.clip = clip;
         _audioSource.volume = volume;
         _audioSource.Play();

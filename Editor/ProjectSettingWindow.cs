@@ -6,15 +6,15 @@ public class ProjectSettingWindow : EditorWindow
 {
     #region >--------------------------------------------- GUI
 
-    [MenuItem("Tools/Project Setting Window")]
+    [MenuItem("PhikozzLibrary/Project Setting Window")]
     public static void ShowWindow()
     {
         GetWindow<ProjectSettingWindow>("Project Setting");
     }
-
+    
     private void OnGUI()
     {
-        if (GUILayout.Button("Project Setup"))
+        if (GUILayout.Button("Project Folders Setup"))
         {
             SetProjectFolders();
         }
