@@ -17,7 +17,8 @@ Assets/
 ├── 07.Plugins/  
 └── Resources/  
 ```
-<br/>
+<br />
+
 ## Runtime - 기능 스크립트
 ### Global - 매니저 중앙화
 - 각 매니저 싱글턴 인스턴스에 쉽게 접근할 있도록 Static 프로퍼티로 노출하며 중앙화되어 있습니다.
