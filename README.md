@@ -1,4 +1,4 @@
-# PhikozzLibrary
+# :page_with_curl: PhikozzLibrary
 
 PhikozzLibrary는 Unity 개발 속도 향상을 위한 라이브러리입니다.
 
