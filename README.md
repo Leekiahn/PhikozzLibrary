@@ -2,7 +2,7 @@
 
 PhikozzLibrary는 Unity 개발 속도 향상을 위한 라이브러리입니다.
 
-## Global - 매니저 중앙화
+### Global - 매니저 중앙화
 - 각 매니저 싱글턴 인스턴스에 쉽게 접근할 있도록 Static 프로퍼티로 노출하며 중앙화
   
 ```Csharp
