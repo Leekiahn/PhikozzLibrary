@@ -28,6 +28,7 @@ public class InputManager : GenericSingleton<InputManager>
     {
         base.Awake();
         _playerInput = new PlayerInput();
+        _playerInput.Enable();
     }
 
     /// <summary>
