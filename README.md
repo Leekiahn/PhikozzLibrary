@@ -32,6 +32,7 @@ Global.UI.ShowPanel("InventoryPanel");
 Vector2 moveInput = Global.Input.moveInput;
 ```
 [Global README](https://github.com/Leekiahn/PhikozzLibrary/blob/main/Runtime/Manager/README.md)
+<br />
 
 ### FSM - 유한상태머신
 - **BaseStateMachine\<TState\>**은 상태 전이(Enter, Tick, Exit)를 관리하는 범용 상태 머신 추상 클래스입니다.  
