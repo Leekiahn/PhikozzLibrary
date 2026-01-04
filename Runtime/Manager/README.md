@@ -16,6 +16,11 @@
 
 <br />
 
+## # Global.Event - EventManager
+
+- **EventManager**는 전역적으로 커스텀 이벤트를 등록, 호출, 관리할 수 있는 싱글턴 매니저 클래스입니다.
+<br />
+
 ## # Global.Scene - GameSceneManager
 - **GameSceneManager**는 Unity에서 게임 씬의 전환 및 관리를 담당하는 싱글턴 매니저 클래스입니다.  
 씬 로드, 현재 씬 리로드, 씬 로드 후 처리 기능을 제공합니다.
