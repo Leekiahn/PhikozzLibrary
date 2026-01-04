@@ -30,3 +30,11 @@ Global.Resource.Load<AudioClip>("Audio/DM-CGS-27");
 Global.UI.ShowPanel("InventoryPanel");
 Vector2 moveInput = Global.Input.moveInput;
 ```
+- Global.Game - GameManager
+- Global.Scene - GameSceneManager
+- Global.SaveLoad - SaveLoadManager
+- Global.Input - InputManager
+- Global.UI - UIManager
+- Global.BGM - BGMManager
+- Global.SFX - SFXManager
+- Global.Resource - ResourceManager
