@@ -8,6 +8,8 @@ namespace PhikozzLibrary.Runtime.Manager
     {
         public static GameManager Game => GameManager.Instance;
         
+        public static EventManager Event => EventManager.Instance;
+        
         public static GameSceneManager Scene => GameSceneManager.Instance;
         
         public static SaveLoadManager SaveLoad => SaveLoadManager.Instance;
