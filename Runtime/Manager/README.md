@@ -24,6 +24,7 @@
 - ReloadCurrentScene(): 현재 활성화된 씬을 다시 로드합니다.
 - OnSceneLoaded(Scene scene, LoadSceneMode mode): 씬이 로드된 후 실행할 작업을 정의할 수 있습니다.  
 (예: 초기화, 플레이어 위치 설정 등)
+<br />
 
 ## Global.SaveLoad - SaveLoadManager
 - SaveLoadManager는 게임 데이터를 저장하고 불러오는 기능을 제공하는 싱글턴 매니저 클래스입니다.  
@@ -37,3 +38,4 @@
 - SaveGame(string saveName): 현재 게임 데이터를 바이너리 파일로 저장합니다. 저장 경로는 MyDocuments/.PhikozzLibrarySaves/ 하위에 생성됩니다.
 - LoadGame(string saveName): 지정한 이름의 저장 파일을 불러와 게임 데이터를 복원합니다. 파일이 없을 경우 경고 메시지를 출력합니다.
 - GetPath(string saveName): 저장 파일의 전체 경로를 반환합니다. 폴더가 없으면 자동으로 생성합니다.
+<br />
