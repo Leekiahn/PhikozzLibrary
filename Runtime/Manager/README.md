@@ -11,11 +11,7 @@
 - GameOver: 게임 종료
 
 ### 주요 기능
-- PauseGame():
-게임을 일시정지 상태로 전환하고, Time.timeScale을 0으로 설정합니다.
-- ResumeGame():
-- 게임을 진행 상태로 전환하고, Time.timeScale을 1로 복구합니다.
-- EndGame():
-게임을 종료 상태로 전환합니다.
-- RestartGame():
-게임을 재시작하며, 상태를 Playing으로 변경합니다.
+- PauseGame(): 게임을 일시정지 상태로 전환하고, Time.timeScale을 0으로 설정합니다.
+- ResumeGame(): 게임을 진행 상태로 전환하고, Time.timeScale을 1로 복구합니다.
+- EndGame(): 게임을 종료 상태로 전환합니다.
+- RestartGame(): 게임을 재시작하며, 상태를 Playing으로 변경합니다.
