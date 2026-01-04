@@ -19,6 +19,4 @@ public class EventManager : GenericSingleton<EventManager>
     }
 
     #endregion
-    
-    
 }

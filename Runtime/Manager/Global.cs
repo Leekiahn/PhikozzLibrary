@@ -23,5 +23,7 @@ namespace PhikozzLibrary.Runtime.Manager
         public static SFXManager SFX => SFXManager.Instance;
         
         public static ResourceManager Resource => ResourceManager.Instance;
+
+        public static TimerManager Timer => TimerManager.Instance;
     }
 }
