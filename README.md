@@ -30,7 +30,7 @@ Global.Resource.Load<AudioClip>("Audio/DM-CGS-27");
 Global.UI.ShowPanel("InventoryPanel");
 Vector2 moveInput = Global.Input.moveInput;
 ```
-- Global.Game - GameManager
+- [Global.Game - GameManager](https://github.com/Leekiahn/PhikozzLibrary/blob/main/Runtime/Manager/README.md)
 - Global.Scene - GameSceneManager
 - Global.SaveLoad - SaveLoadManager
 - Global.Input - InputManager
