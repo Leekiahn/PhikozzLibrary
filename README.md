@@ -32,3 +32,16 @@ Global.UI.ShowPanel("InventoryPanel");
 Vector2 moveInput = Global.Input.moveInput;
 ```
 [Global README](https://github.com/Leekiahn/PhikozzLibrary/blob/main/Runtime/Manager/README.md)
+<br />
+
+### FSM - 유한상태머신
+- 상태 전이(Enter, Tick, Exit)를 관리하는 상태 머신 추상 클래스입니다.  
+  다양한 상태(`IState` 구현체)를 등록하고, 상태 전환 및 상태별 로직을 처리할 수 있습니다.
+
+[FSM README](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/FSM)
+
+### ObjectPool - 오브젝트 풀링
+- 오브젝트 재사용을 위한 오브젝트 풀 클래스입니다.  
+  오브젝트의 생성, 반환, 초기화 시 커스텀 동작을 지정할 수 있습니다.
+
+[ObjectPool README](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/Pooling)
