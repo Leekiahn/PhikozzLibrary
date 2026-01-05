@@ -120,17 +120,36 @@
 ---
 
 ## Global.Resource - ResourceManager
-- **ResourceManager**는 Unity의 Resources 폴더 내 리소스(프리팹, 오디오, 텍스처 등)를 효율적으로 로드/언로드/캐싱하는 싱글턴 매니저 클래스입니다.
+
+`ResourceManager`는 Unity의 `Resources` 폴더 내 리소스를 비동기로 로드/언로드/캐싱하는 싱글턴 매니저 클래스입니다.
 
 ### 주요 필드 및 프로퍼티
-- **_cache**: 단일 오브젝트 캐시 딕셔너리
-- **_cacheAll**: 다중 오브젝트 캐시 딕셔너리
+
+- **_cache**: 단일 오브젝트 캐시 딕셔너리 (`Dictionary<string, Object>`)
+- **_cacheAll**: 다중 오브젝트 캐시 딕셔너리 (`Dictionary<string, Object[]>`)
 
 ### 주요 메서드
-- **Load\<T\>(string path)**: 지정한 경로의 리소스를 로드하고 캐싱합니다.
-- **LoadAll\<T\>(string path)**: 지정한 경로의 모든 리소스를 배열로 로드하고 캐싱합니다.
-- **Unload(string path)**: 지정한 경로의 리소스를 언로드합니다.
-- **UnloadAll()**: 모든 캐시된 리소스를 언로드합니다.
+
+- **LoadAsync\<T\>(string path)**  
+  지정한 경로의 리소스를 비동기로 로드하고 캐싱합니다.
+
+- **LoadAllAsync\<T\>(string[] paths)**  
+  여러 경로의 리소스를 비동기로 배열로 로드하고 캐싱합니다.
+
+- **Unload(string path)**  
+  지정한 경로의 리소스를 언로드하고 캐시에서 제거합니다.
+
+- **UnloadAll()**  
+  모든 캐시된 리소스를 언로드하고 캐시를 비웁니다.
+
+- **NormalizeResourcePath(string path)**  
+  Resources 경로를 항상 Resources 하위 상대경로로 변환합니다.
+
+---
+
+> 이 매니저는 Addressable Asset System을 사용하지 않는 프로젝트에서  
+> Resources 기반 리소스 관리를 효율적으로 지원합니다.  
+> Addressable Asset System 사용 시, 해당 매니저는 불필요합니다.
 
 ---
 
