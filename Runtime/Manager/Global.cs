@@ -24,6 +24,6 @@ namespace PhikozzLibrary.Runtime.Manager
         
         public static ResourceManager Resource => ResourceManager.Instance;
 
-        public static TimerManager Timer => TimerManager.Instance;
+        public static CoroutineManager Coroutine => CoroutineManager.Instance;
     }
 }
