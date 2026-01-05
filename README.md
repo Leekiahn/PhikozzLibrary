@@ -23,14 +23,7 @@ Assets/
 ## Runtime - 기능 스크립트
 ### Global - 매니저 중앙화
 - 각 매니저 싱글턴 인스턴스에 쉽게 접근할 있도록 Static 프로퍼티로 노출하며 중앙화되어 있습니다.
-  
-```Csharp
-ex)
-Global.Game.PauseGame();
-Global.Resource.Load<AudioClip>("Audio/DM-CGS-27");
-Global.UI.ShowPanel("InventoryPanel");
-Vector2 moveInput = Global.Input.moveInput;
-```
+
 [Global README](https://github.com/Leekiahn/PhikozzLibrary/blob/main/Runtime/Manager/README.md)
 <br />
 
