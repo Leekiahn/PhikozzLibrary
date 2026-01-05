@@ -2,7 +2,7 @@
 - [GameManager](#globalgame---gamemanager)
 - [EventManager](#globalevent---eventmanager)
 - [GameSceneManager](#globalscene---gamescenemanager)
-- [SaveLoadManager](#globalsaveload---saveloadmanager)
+- [SaveManager](#globalsave---savemanager)
 - [InputManager](#globalinput---inputmanager)
 - [UIManager](#globalui---uimanager)
 - [BGMManager](#globalbgm---bgmmanager)
