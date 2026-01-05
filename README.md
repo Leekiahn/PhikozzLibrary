@@ -38,3 +38,8 @@ Assets/
   오브젝트의 생성, 반환, 초기화 시 커스텀 동작을 지정할 수 있습니다.
 
 [ObjectPool README](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/Pooling)
+
+### Command - 커맨드 패턴 유틸리티
+- 게임 내 명령(행동) 정의와 실행을 구조화하는 커맨드 패턴 클래스입니다.
+
+[Command README](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/Command)
