@@ -18,9 +18,9 @@ namespace PhikozzLibrary.Runtime.Manager
 
         // 일정 시간 후 코루틴 중단 메서드
         // 0f일 경우 즉시 중단
-        public Coroutine Stop(Coroutine timerCoroutine, float delayAfterStop, Action onStop = null)
+        public void Stop(Coroutine timerCoroutine, float delayAfterStop, Action onStop = null)
         {
-            return StartCoroutine(StopRoutine(timerCoroutine, delayAfterStop, onStop));
+            StartCoroutine(StopRoutine(timerCoroutine, delayAfterStop, onStop));
         }
 
         #endregion
