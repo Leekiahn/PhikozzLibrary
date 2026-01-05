@@ -22,7 +22,7 @@ public class GameData
     }
 }
 
-public class SaveLoadManager : GenericSingleton<SaveLoadManager>
+public class SaveManager : GenericSingleton<SaveManager>
 {
     public GameData gameData = new GameData();  // 현재 게임 데이터를 저장하는 객체
     private readonly BinaryFormatter _formatter = new BinaryFormatter();

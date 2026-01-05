@@ -12,7 +12,7 @@ namespace PhikozzLibrary.Runtime.Manager
         
         public static GameSceneManager Scene => GameSceneManager.Instance;
         
-        public static SaveLoadManager SaveLoad => SaveLoadManager.Instance;
+        public static SaveManager Save => SaveManager.Instance;
         
         public static InputManager Input => InputManager.Instance;
         
