@@ -10,7 +10,7 @@
 | 메서드         | 설명                       |
 | -------------- | -------------------------- |
 | `Get()`        | 오브젝트를 풀에서 꺼냅니다. |
-| `Release(obj)` | 오브젝트를 풀에 반환합니다. |
+| `Set(obj)` | 오브젝트를 풀에 반환합니다. |
 | `Clear()`      | 풀을 비웁니다.             |
 
 ## ObjectPool\<T\> (class)
@@ -19,10 +19,10 @@
 
 ### 생성자
 
-- **ObjectPool(Func\<T\> createFunc, Action\<T\> onGet = null, Action\<T\> onRelease = null)**
+- **ObjectPool(Func\<T\> createFunc, Action\<T\> onGet = null, Action\<T\> onSet = null)**
   - `createFunc`: 오브젝트 생성 함수 (필수)
   - `onGet`: 오브젝트 꺼낼 때 실행할 액션 (선택)
-  - `onRelease`: 오브젝트 반환 시 실행할 액션 (선택)
+  - `onSet`: 오브젝트 반환 시 실행할 액션 (선택)
 
 ### 주요 메서드
 
@@ -30,9 +30,9 @@
   풀에 오브젝트가 있으면 꺼내고, 없으면 새로 생성합니다.  
   꺼낼 때 `onGet` 액션이 실행됩니다.
 
-- **Release(obj)**:  
-  오브젝트를 풀에 반환합니다.  
-  반환 시 `onRelease` 액션이 실행됩니다.
+- **Set(obj)**:  
+  오브젝트를 풀에 넣습니다.  
+  반환 시 `onSet` 액션이 실행됩니다.
 
 - **Clear()**:  
   풀에 있는 모든 오브젝트를 제거합니다.
