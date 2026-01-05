@@ -8,7 +8,7 @@
 - [BGMManager](#globalbgm---bgmmanager)
 - [SFXManager](#globalsfx---sfxmanager)
 - [ResourceManager](#globalresource---resourcemanager)
-- [TimerManager](#globaltimer---timermanager)
+- [CoroutineManager](#globalcoroutine---coroutinemanager)
 
 ---
 
