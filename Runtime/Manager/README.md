@@ -161,14 +161,14 @@ Coroutine repeatCoroutine = Global.Coroutine.Run(1f, () => Debug.Log("Tick"), tr
 Global.Coroutine.Stop(repeatCoroutine, 5f, () => Debug.Log("Stopped ticking after 5 seconds"));
 
 // 5초 후에 실행되는 코루틴
-        // 진행 상황과 시작/완료 콜백 포함
-        Coroutine coroutine = Global.Coroutine.Run(5f,
-            () => Debug.Log("5 seconds passed!"), 
-            false,
-            onStart: () => Debug.Log("Coroutine started"),
-            onComplete: () => Debug.Log("Coroutine completed"),
-            onProgress: (elapsedTime, progress) => 
-                Debug.Log($"Elapsed Time: {elapsedTime}, Progress: {progress * 100}%"));
+// 진행 상황과 시작/완료 콜백 포함
+Coroutine coroutine = Global.Coroutine.Run(5f,
+  () => Debug.Log("5 seconds passed!"), 
+  false,
+  onStart: () => Debug.Log("Coroutine started"),
+  onComplete: () => Debug.Log("Coroutine completed"),
+  onProgress: (elapsedTime, progress) => 
+  Debug.Log($"Elapsed Time: {elapsedTime}, Progress: {progress * 100}%"));
 ```
 - Stop의 delayAfterStop을 0f로 주면 즉시 중단과 동일합니다.
 - 반복 타이머는 반드시 외부에서 중단해주어야 합니다.
