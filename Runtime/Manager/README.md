@@ -148,7 +148,7 @@
 ---
 
 > 이 매니저는 Addressable Asset System을 사용하지 않는 프로젝트에서  
-> Resources 기반 리소스 관리를 효율적으로 지원합니다.
+> Resources 기반 리소스 관리를 효율적으로 지원합니다.  
 > Addressable Asset System 사용 시, 해당 매니저는 불필요합니다.
 
 ---
