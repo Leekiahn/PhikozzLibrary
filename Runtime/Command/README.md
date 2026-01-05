@@ -11,33 +11,69 @@
 - **CommandInvoker**  
   커맨드의 실행, 실행 취소(Undo), 재실행(Redo) 등 전체적인 커맨드 흐름을 관리합니다.
 
-- **구체 커맨드 클래스**  
-  실제 기능(게임 내 행동, 데이터 조작 등)을 수행하는 커맨드 클래스들이 이곳에 위치합니다.
+- **Concrete Command**
+
+- **Command Receiver**
 
 ## 사용 예시
 
 ```csharp
 // ICommand 구현 예시
-public class MoveCommand : ICommand
+public class SampleConcreteCommand : ICommand
 {
+    private Transform _target;
+    private Vector3 _direction;
+    private float _distance;
+    private Vector3 _previousPosition;
+
+    public SampleConcreteCommand(Transform target, Vector3 direction, float distance)
+    {
+        _target = target;
+        _direction = direction.normalized;
+        _distance = distance;
+    }
+
     public void Execute()
     {
-        // 이동 실행 코드
+        _previousPosition = _target.position;
+        _target.position += _direction * _distance;
     }
 
     public void Undo()
     {
-        // 이동 취소 코드
+        _target.position = _previousPosition;
     }
 }
+```
 
-// CommandInvoker를 이용한 명령 실행/취소
-CommandInvoker invoker = new CommandInvoker();
-MoveCommand move = new MoveCommand();
+```csharp
+// CommandReceiver 구현 예시
+public class CommandReceiver : MonoBehaviour
+{
+    public Transform player;
+    CommandInvoker invoker;
 
-invoker.ExecuteCommand(move); // 명령 실행
-invoker.Undo();               // 실행 취소
-invoker.Redo();               // 재실행
+    void Start()
+    {
+        invoker = new CommandInvoker();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            invoker.ExecuteCommand(new SampleConcreteCommand(player, Vector3.right, 1f));
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            invoker.ExecuteCommand(new SampleConcreteCommand(player, Vector3.left, 1f));
+        }
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            invoker.UndoCommand();
+        }
+    }
+}
 ```
 
 ## 활용 예시
