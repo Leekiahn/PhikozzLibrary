@@ -46,8 +46,8 @@
 
 ---
 
-## Global.SaveLoad - SaveLoadManager
-- **SaveLoadManager**는 게임 데이터를 저장하고 불러오는 기능을 제공하는 싱글턴 매니저 클래스입니다.  
+## Global.Save - SaveManager
+- **SaveManager**는 게임 데이터를 저장하고 불러오는 기능을 제공하는 싱글턴 매니저 클래스입니다.  
   로컬 폴더(`MyDocuments/.PhikozzLibrarySaves`)에 바이너리 형식으로 데이터를 저장/로드합니다.
 
 ### GameData (직렬화 클래스)
