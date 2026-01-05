@@ -1,62 +1,67 @@
 using System.Collections.Generic;
 using PhikozzLibrary;
 using UnityEngine;
+using System.Threading.Tasks;
 
 /// <summary>
 /// 리소스 관리 매니저
+/// Addressable Asset System 미사용 시 Resources 폴더 기반 리소스 로드 관리
 /// </summary>
 public class ResourceManager : GenericSingleton<ResourceManager>
 {
     #region >--------------------------------------------- fields & Properties
 
-    private Dictionary<string, Object> _cache = new Dictionary<string, Object>();   // 단일 오브젝트 캐시
-    private Dictionary<string, Object[]> _cacheAll = new Dictionary<string, Object[]>();    // 다중 오브젝트 캐시
+    private Dictionary<string, Object> _cache = new Dictionary<string, Object>(); // 단일 오브젝트 캐시
+    private Dictionary<string, Object[]> _cacheAll = new Dictionary<string, Object[]>(); // 다중 오브젝트 캐시
 
     #endregion
 
     #region >--------------------------------------------- Load & Unload
 
     /// <summary>
-    /// 리소스 로드
+    /// 리소스 단일 로드
     /// </summary>
     /// <param name="path">파일 경로 (기본값: Assets/Resources)</param>
     /// <typeparam name="T">유니티 오브젝트 타입</typeparam>
     /// <returns>로드된 오브젝트</returns>
-    public T Load<T>(string path) where T : Object
+    public async Task<T> LoadAsync<T>(string path) where T : Object
     {
         path = NormalizeResourcePath(path);
         if (_cache.TryGetValue(path, out var obj))
         {
             return obj as T;
         }
-        var loaded = Resources.Load<T>(path);
-        if (loaded != null)
+
+        var request = Resources.LoadAsync<T>(path);
+        while (!request.isDone)
         {
-            _cache[path] = loaded;
+            await Task.Yield();
         }
-        return loaded;
+
+        if (request.asset != null)
+        {
+            _cache[path] = request.asset;
+        }
+
+        return request.asset as T;
     }
-    
+
     /// <summary>
     /// 리소스 다중 로드
     /// </summary>
     /// <param name="path">파일 경로 (기본값: Assets/Resources)</param>
     /// <typeparam name="T">유니티 오브젝트 타입</typeparam>
     /// <returns>로드된 오브젝트 배열</returns>
-    public T[] LoadAll<T>(string path) where T : Object
+    public async Task<T[]> LoadAllAsync<T>(string[] paths) where T : Object
     {
-        path = NormalizeResourcePath(path);
-        if (_cacheAll.TryGetValue(path, out var objs))
+        var tasks = new List<Task<T>>();
+        foreach (var path in paths)
         {
-            return objs as T[];
+            tasks.Add(LoadAsync<T>(path));
         }
-        var loadedArray = Resources.LoadAll<T>(path);
-        if (loadedArray != null && loadedArray.Length > 0)
-        {
-            _cacheAll[path] = loadedArray;
-            return loadedArray;
-        }
-        return null;
+
+        var results = await Task.WhenAll(tasks);
+        return results;
     }
 
     /// <summary>
@@ -82,6 +87,7 @@ public class ResourceManager : GenericSingleton<ResourceManager>
         {
             Resources.UnloadAsset(obj);
         }
+
         _cache.Clear();
     }
 
