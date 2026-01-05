@@ -134,31 +134,42 @@
 
 ---
 
-## Global.Timer - TimerManager
-- **TimerManager**는 Unity에서 타이머 기반 작업을 쉽게 관리할 수 있도록 도와주는 싱글턴 매니저 클래스입니다.  
-  타이머 시작, 반복, 중단(즉시/지연) 기능을 제공합니다.
+## Global.Coroutine - CoroutineManager
+- **CoroutineManager**는 Unity에서 코루틴 기반 작업을 쉽게 관리할 수 있도록 도와주는 싱글턴 매니저 클래스입니다.  
+  코루틴 시작, 반복, 중단(즉시/지연), 이벤트 기능을 제공합니다.
 
 ### 주요 메서드
-- **StartTimer(float delay, Action callback, bool repeat = false)**  
-  지정한 시간 후 콜백을 실행하는 타이머를 시작합니다. 반복 실행도 지원합니다.
-- **StopTimer(Coroutine timerCoroutine, float delayAfterStop)**  
+- **Coroutine Run(float delay, Action callback, bool repeat = false, 
+            Action onStart = null, Action onComplete = null,
+            Action<float, float> onProgress = null)**
+  지정한 시간 후 콜백을 실행하는 타이머를 시작합니다. 반복 실행도 지원합니다.  
+  코루틴이 시작과 종료, 진행 중일 때 이벤트 호출을 지원합니다.
+- **Stop(Coroutine timerCoroutine, float delayAfterStop, Action onStop = null)**  
   진행 중인 타이머 코루틴을 즉시 또는 일정 시간 후 중단합니다.
+  코루틴이 종료될 때 이벤트 호출을 지원합니다.
 
 ### 예시
 
 ```csharp
 // 2초 후 한 번 실행
-Coroutine timer = TimerManager.Instance.StartTimer(2f, () => {
-    Debug.Log("2초 후 실행!");
-});
+Coroutine coroutine = Global.Coroutine.Run(2f, () => Debug.Log("2초 후 실행"));
 
 // 1초마다 반복 실행
-Coroutine repeatTimer = TimerManager.Instance.StartTimer(1f, () => Debug.Log("Tick"), true);
+Coroutine repeatCoroutine = Global.Coroutine.Run(1f, () => Debug.Log("Tick"), true);
 
 // 5초 후 반복 타이머 중단
-TimerManager.Instance.StopTimer(repeatTimer, 5f);
+Global.Coroutine.Stop(repeatCoroutine, 5f, () => Debug.Log("Stopped ticking after 5 seconds"));
 
+// 5초 후에 실행되는 코루틴
+        // 진행 상황과 시작/완료 콜백 포함
+        Coroutine coroutine = Global.Coroutine.Run(5f,
+            () => Debug.Log("5 seconds passed!"), 
+            false,
+            onStart: () => Debug.Log("Coroutine started"),
+            onComplete: () => Debug.Log("Coroutine completed"),
+            onProgress: (elapsedTime, progress) => 
+                Debug.Log($"Elapsed Time: {elapsedTime}, Progress: {progress * 100}%"));
 ```
-- StopTimer의 delayAfterStop을 0f로 주면 즉시 중단과 동일합니다.
+- Stop의 delayAfterStop을 0f로 주면 즉시 중단과 동일합니다.
 - 반복 타이머는 반드시 외부에서 중단해주어야 합니다.
   
