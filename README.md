@@ -48,3 +48,8 @@ Assets/
 - 게임 내 알고리즘 교체, 행동 전략 구현 등을 유연하게 처리하기 위해 Strategy 패턴을 활용할 수 있도록 구성되어 있습니다.
 
 [Strategy README](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/Strategy)
+
+### Factory - 팩토리 패턴 유틸리티
+- 오브젝트(프리팹 등)를 표준화된 방식으로 효율적이고 일관되게 생성할 수 있도록 지원하는 유틸리티입니다.
+
+[Factory README](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/Factory)
