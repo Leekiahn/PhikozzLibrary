@@ -4,14 +4,14 @@ using PhikozzLibrary.Runtime.Command;
 /// <summary>
 /// 예시 ConcreteCommand 클래스입니다.
 /// </summary>
-public class SampleConcreteCommand : ICommand
+public class ExampleConcreteCommand : ICommand
 {
     private Transform _target;
     private Vector3 _direction;
     private float _distance;
     private Vector3 _previousPosition;
 
-    public SampleConcreteCommand(Transform target, Vector3 direction, float distance)
+    public ExampleConcreteCommand(Transform target, Vector3 direction, float distance)
     {
         _target = target;
         _direction = direction.normalized;
