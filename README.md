@@ -27,7 +27,7 @@ Assets/
 [Global README](https://github.com/Leekiahn/PhikozzLibrary/blob/main/Runtime/Manager/README.md)
 <br />
 
-### FSM - 유한상태머신
+### FSM - 유한상태머신 유틸리티
 - 상태 전이(Enter, Tick, Exit)를 관리하는 상태 머신 추상 클래스입니다.  
   다양한 상태(`IState` 구현체)를 등록하고, 상태 전환 및 상태별 로직을 처리할 수 있습니다.
 
@@ -43,3 +43,8 @@ Assets/
 - 게임 내 명령(행동) 정의와 실행을 구조화하는 커맨드 패턴 클래스입니다.
 
 [Command README](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/Command)
+
+### Strategy - 전략 패턴 유틸리티
+- 게임 내 알고리즘 교체, 행동 전략 구현 등을 유연하게 처리하기 위해 Strategy 패턴을 활용할 수 있도록 구성되어 있습니다.
+
+[Strategy README](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/Strategy)
