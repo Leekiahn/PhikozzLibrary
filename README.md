@@ -24,7 +24,7 @@ Assets/
 ### Global - 매니저 중앙화
 - 각 매니저 싱글턴 인스턴스에 쉽게 접근할 있도록 Static 프로퍼티로 노출하며 중앙화되어 있습니다.
 
-[Global README](https://github.com/Leekiahn/PhikozzLibrary/blob/main/Runtime/Manager/README.md)
+[Global README](https://github.com/Leekiahn/PhikozzLibrary/blob/main/Runtime/ServiceLocater/README.md)
 <br />
 
 ### FSM - 유한상태머신 유틸리티
