@@ -3,6 +3,7 @@
 - [EventManager](#globalevent---eventmanager)
 - [GameSceneManager](#globalscene---gamescenemanager)
 - [SaveManager](#globalsave---savemanager)
+- [SettingManager](#globalsetting---settingmanager)   <!-- 👈 추가됨 -->
 - [InputManager](#globalinput---inputmanager)
 - [UIManager](#globalui---uimanager)
 - [BGMManager](#globalbgm---bgmmanager)
@@ -37,7 +38,7 @@
 
 ## Global.Scene - GameSceneManager
 - **GameSceneManager**는 Unity에서 게임 씬의 전환 및 관리를 담당하는 싱글턴 매니저 클래스입니다.  
-  씬 로드, 현재 씬 리로드, 씬 로드 후 처리 기능을 제공합니다.
+  씬 로��, 현재 씬 리로드, 씬 로드 후 처리 기능을 제공합니다.
 
 ### 주요 메서드
 - **LoadScene(string sceneName)**: 지정한 이름의 씬을 로드합니다.
@@ -58,6 +59,39 @@
 - **SaveGame(string saveName)**: 현재 게임 데이터를 바이너리 파일로 저장합니다. 저장 경로는 `MyDocuments/.PhikozzLibrarySaves/` 하위에 생성됩니다.
 - **LoadGame(string saveName)**: 지정한 이름의 저장 파일을 불러와 게임 데이터를 복원합니다. 파일이 없을 경우 경고 메시지를 출력합니다.
 - **GetPath(string saveName)**: 저장 파일의 전체 경로를 반환합니다. 폴더가 없으면 자동으로 생성합니다.
+
+---
+
+## Global.Setting - SettingManager
+- **SettingManager**는 게임의 설정 데이터를 저장 및 불러오는 기능을 제공하는 싱글턴 매니저 클래스입니다.
+  설정 파일은 SaveManager와 동일하게 로컬 폴더(`MyDocuments/.PhikozzLibrarySaves/SettingData.bin`)에 바이너리 형식으로 저장됩니다.
+
+### SettingData (직렬화 클래스)
+- 설정 데이터 구조를 정의하며, 대표적으로 `masterVolume`(마스터 볼륨, 기본값 1.0)을 포함합니다.
+- 추가적인 옵션이 필요할 경우 SettingData 클래스에 변수를 확장하여 사용하면 됩니다.
+
+### 주요 필드 및 프로퍼티
+- **settingData**: 현재 적용 중인 설정을 담은 SettingData 인스턴스입니다.
+- **_formatter**: BinaryFormatter 인스턴스로, 설정 데이터 바이너리 직렬화/역직렬화에 사용됩니다.
+
+### 주요 메서드
+- **SaveSetting(string saveName = "SettingData")**: 현재 설정 데이터를 지정한 이름으로 바이너리 파일로 저장합니다.
+- **LoadSetting(string saveName = "SettingData")**: 지정한 이름의 설정 파일을 불러와 `settingData`를 갱신합니다. 파일이 없을 경우 경고 메시지를 출력합니다.
+- **GetPath(string saveName)**: 설정 파일의 전체 경로를 반환하며, 폴더가 없으면 자동으로 생성합니다.
+
+### 사용 예시
+```csharp
+// 저장
+Global.Setting.SaveSetting(); // "SettingData"로 저장
+Global.Setting.SaveSetting("CustomSetting");
+
+// 불러오기
+Global.Setting.LoadSetting(); // "SettingData"에서 불러오기
+Global.Setting.LoadSetting("CustomSetting");
+
+// 값 사용
+float volume = Global.Setting.settingData.masterVolume;
+```
 
 ---
 
