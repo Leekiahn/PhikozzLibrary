@@ -1,4 +1,4 @@
-namespace PhikozzLibrary.Runtime.Manager
+namespace PhikozzLibrary.Runtime.ServiceLocater
 {
     /// <summary>
     /// 모든 매니저에 쉽게 접근할 수 있는 전역 클래스
@@ -11,6 +11,8 @@ namespace PhikozzLibrary.Runtime.Manager
         public static EventManager Event => EventManager.Instance;
         
         public static GameSceneManager Scene => GameSceneManager.Instance;
+        
+        public static SettingManager Setting => SettingManager.Instance;
         
         public static SaveManager Save => SaveManager.Instance;
         
