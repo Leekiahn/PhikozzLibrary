@@ -1,9 +1,10 @@
+using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using PhikozzLibrary;
 
-[SerializeField]
+[Serializable]
 public class SettingData
 {
     // 설정 데이터 변수 추가
