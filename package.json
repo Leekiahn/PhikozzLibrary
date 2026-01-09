@@ -1,18 +1,13 @@
 {
   "name": "com.phikozz.phikozzlibrary",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "displayName": "PhikozzLibrary",
-  "description": "프로젝트 초기 세팅을 도와주는 유니티 패키지입니다.",
+  "description": "프로젝트 초기 세팅과 서비스 로케이터, 유한 상태 머신, 팩토리 패턴, 커맨드 패턴, 전략 패턴 등을 제공하는 패키지입니다.",
   "unity": "6000.0",
-  "documentationUrl": "https://example.com/",
-  "keywords": [
-    "keyword1",
-    "keyword2",
-    "keyword3"
-  ],
+  "documentationUrl": "https://github.com/Leekiahn/PhikozzLibrary",
   "author": {
     "name": "Phikozz",
     "email": "kiahn2000@gmail.com",
-    "url": "https://phikozz.tistory.com/"
+    "url": "https://github.com/Leekiahn/PhikozzLibrary"
   }
 }
