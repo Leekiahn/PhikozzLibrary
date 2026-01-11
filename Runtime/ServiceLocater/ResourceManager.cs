@@ -16,7 +16,43 @@ public class ResourceManager : GenericSingleton<ResourceManager>
 
     #endregion
 
-    #region >--------------------------------------------- Load & Unload
+    #region >--------------------------------------------- Load & Unload (sync)
+
+    /// <summary>
+    /// 리소스 단일 동기 로드
+    /// </summary>
+    public T Load<T>(string path) where T : Object
+    {
+        path = NormalizeResourcePath(path);
+        if (_cache.TryGetValue(path, out var obj))
+        {
+            return obj as T;
+        }
+
+        var asset = Resources.Load<T>(path);
+        if (asset != null)
+        {
+            _cache[path] = asset;
+        }
+        return asset;
+    }
+
+    /// <summary>
+    /// 리소스 다중 동기 로드
+    /// </summary>
+    public T[] LoadAll<T>(string[] paths) where T : Object
+    {
+        var results = new T[paths.Length];
+        for (int i = 0; i < paths.Length; i++)
+        {
+            results[i] = Load<T>(paths[i]);
+        }
+        return results;
+    }
+
+    #endregion
+
+    #region >--------------------------------------------- Load & Unload (async)
 
     /// <summary>
     /// 리소스 단일 로드
