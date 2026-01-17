@@ -38,7 +38,7 @@
 
 ## Global.Scene - GameSceneManager
 - **GameSceneManager**는 Unity에서 게임 씬의 전환 및 관리를 담당하는 싱글턴 매니저 클래스입니다.  
-  씬 로��, 현재 씬 리로드, 씬 로드 후 처리 기능을 제공합니다.
+  지정한 씬 로드, 현재 씬 리로드, 씬 로드 후 처리 기능을 제공합니다.
 
 ### 주요 메서드
 - **LoadScene(string sceneName)**: 지정한 이름의 씬을 로드합니다.
