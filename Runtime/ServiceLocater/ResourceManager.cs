@@ -40,65 +40,25 @@ public class ResourceManager : GenericSingleton<ResourceManager>
     /// <summary>
     /// 리소스 다중 동기 로드
     /// </summary>
-    public T[] LoadAll<T>(string[] paths) where T : Object
+    public T[] LoadAll<T>(string path) where T : Object
     {
-        var results = new T[paths.Length];
-        for (int i = 0; i < paths.Length; i++)
+        path = NormalizeResourcePath(path);
+        var assets = Resources.LoadAll<T>(path);
+        foreach (var asset in assets)
         {
-            results[i] = Load<T>(paths[i]);
+            if (asset != null)
+            {
+                var assetPath = $"{path}/{asset.name}";
+                if (!_cache.ContainsKey(assetPath))
+                    _cache[assetPath] = asset;
+            }
         }
-        return results;
+        return assets;
     }
 
     #endregion
 
-    #region >--------------------------------------------- Load & Unload (async)
-
-    /// <summary>
-    /// 리소스 단일 로드
-    /// </summary>
-    /// <param name="path">파일 경로 (기본값: Assets/Resources)</param>
-    /// <typeparam name="T">유니티 오브젝트 타입</typeparam>
-    /// <returns>로드된 오브젝트</returns>
-    public async Task<T> LoadAsync<T>(string path) where T : Object
-    {
-        path = NormalizeResourcePath(path);
-        if (_cache.TryGetValue(path, out var obj))
-        {
-            return obj as T;
-        }
-
-        var request = Resources.LoadAsync<T>(path);
-        while (!request.isDone)
-        {
-            await Task.Yield();
-        }
-
-        if (request.asset != null)
-        {
-            _cache[path] = request.asset;
-        }
-
-        return request.asset as T;
-    }
-
-    /// <summary>
-    /// 리소스 다중 로드
-    /// </summary>
-    /// <param name="path">파일 경로 (기본값: Assets/Resources)</param>
-    /// <typeparam name="T">유니티 오브젝트 타입</typeparam>
-    /// <returns>로드된 오브젝트 배열</returns>
-    public async Task<T[]> LoadAllAsync<T>(string[] paths) where T : Object
-    {
-        var tasks = new List<Task<T>>();
-        foreach (var path in paths)
-        {
-            tasks.Add(LoadAsync<T>(path));
-        }
-
-        var results = await Task.WhenAll(tasks);
-        return results;
-    }
+    #region >--------------------------------------------- Unload
 
     /// <summary>
     /// 리소스 언로드
