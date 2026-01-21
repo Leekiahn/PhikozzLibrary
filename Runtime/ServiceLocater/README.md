@@ -164,11 +164,11 @@ float volume = Global.Setting.settingData.masterVolume;
 
 ### 주요 메서드
 
-- **LoadAsync\<T\>(string path)**  
-  지정한 경로의 리소스를 비동기로 로드하고 캐싱합니다.
+- **Load\<T\>(string path)**  
+  지정한 경로의 리소스를 로드하고 캐싱합니다.
 
-- **LoadAllAsync\<T\>(string[] paths)**  
-  여러 경로의 리소스를 비동기로 배열로 로드하고 캐싱합니다.
+- **LoadAll\<T\>(string path)**  
+  여러 경로의 모든 리소스를 로드하고 캐싱합니다.
 
 - **Unload(string path)**  
   지정한 경로의 리소스를 언로드하고 캐시에서 제거합니다.
