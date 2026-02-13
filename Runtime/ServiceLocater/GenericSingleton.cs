@@ -8,8 +8,6 @@ namespace PhikozzLibrary
     /// <typeparam name="T"></typeparam>
     public class GenericSingleton<T> : MonoBehaviour where T : Component
     {
-        #region >--------------------------------------------- fields & Properties
-
         private static T _instance;
 
         internal static T Instance
@@ -26,11 +24,7 @@ namespace PhikozzLibrary
                 return _instance;
             }
         }
-
-        #endregion
-
-        #region >--------------------------------------------- Unity
-
+        
         protected virtual void Awake()
         {
             if (_instance == null)
@@ -44,7 +38,5 @@ namespace PhikozzLibrary
                 Destroy(this.gameObject);
             }
         }
-
-        #endregion
     }
 }
