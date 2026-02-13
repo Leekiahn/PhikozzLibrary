@@ -13,9 +13,4 @@ public class GameManager : GenericSingleton<GameManager>, IGameService
     {
         ServiceRegister.RegisterAllServices();
     }
-
-    public void Test()
-    {
-        Debug.Log("Test");
-    }
 }
