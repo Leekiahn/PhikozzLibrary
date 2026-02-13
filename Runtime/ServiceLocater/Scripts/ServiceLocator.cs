@@ -2,19 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PhikozzLibrary
+namespace PhikozzLibrary.Runtime.ServiceLocater
 {
     /// <summary>
-    /// 서비스 로케이터 싱글톤
+    /// 서비스 로케이터
     /// </summary>
-    public class ServiceLocator : GenericSingleton<ServiceLocator>
+    public static class ServiceLocator
     {
-        private Dictionary<Type, object> _services = new Dictionary<Type, object>();
+        private static Dictionary<Type, object> _services = new Dictionary<Type, object>();
 
-        /// <summary>
-        /// 서비스 등록
-        /// </summary>
-        public void Register<T>(T service) where T : class
+        public static void Register<T>(T service) where T : class
         {
             var type = typeof(T);
             if (_services.ContainsKey(type))
@@ -25,10 +22,7 @@ namespace PhikozzLibrary
             _services[type] = service;
         }
 
-        /// <summary>
-        /// 서비스 조회
-        /// </summary>
-        public T Get<T>() where T : class
+        public static T Get<T>() where T : class
         {
             var type = typeof(T);
             if (_services.TryGetValue(type, out var service))
@@ -39,10 +33,7 @@ namespace PhikozzLibrary
             return null;
         }
 
-        /// <summary>
-        /// 서비스 제거
-        /// </summary>
-        public void Unregister<T>() where T : class
+        public static void Unregister<T>() where T : class
         {
             var type = typeof(T);
             if (_services.ContainsKey(type))
@@ -52,4 +43,3 @@ namespace PhikozzLibrary
         }
     }
 }
-

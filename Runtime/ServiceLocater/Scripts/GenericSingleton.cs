@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PhikozzLibrary
+namespace PhikozzLibrary.Runtime.ServiceLocater
 {
     /// <summary>
     /// 제네릭 싱글톤 베이스 클래스
