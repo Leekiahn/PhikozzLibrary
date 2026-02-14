@@ -9,12 +9,6 @@ public class AudioManager : GenericSingleton<AudioManager>, IAudioService
     {
         base.Awake();
         _audioSource = GetComponent<AudioSource>();
-        if (_audioSource == null)
-        {
-            _audioSource = gameObject.AddComponent<AudioSource>();
-        }
-        // ServiceLocator에 자신을 등록
-        ServiceLocator.Register<IAudioService>(this);
     }
 
     public void PlayBGM(AudioClip clip, bool loop = true)
