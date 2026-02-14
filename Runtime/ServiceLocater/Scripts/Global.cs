@@ -1,4 +1,4 @@
-namespace PhikozzLibrary.Runtime.ServiceLocater
+namespace PhikozzLibrary
 {
     public static class Global 
     {

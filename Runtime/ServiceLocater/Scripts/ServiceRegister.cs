@@ -1,9 +1,14 @@
 using UnityEngine;
-using PhikozzLibrary.Runtime.ServiceLocater;
+using PhikozzLibrary;
 
-public static class ServiceRegister
+public class ServiceRegister : MonoBehaviour
 {
-    public static void RegisterAllServices()
+    private void Awake()
+    {
+        RegisterAllServices();
+    }
+    
+    private void RegisterAllServices()
     {
         ServiceLocator.Register<IAudioService>(AudioManager.Instance);
         ServiceLocator.Register<IGameService>(GameManager.Instance);

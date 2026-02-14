@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PhikozzLibrary.Runtime.ServiceLocater
+namespace PhikozzLibrary
 {
     /// <summary>
     /// 서비스 로케이터

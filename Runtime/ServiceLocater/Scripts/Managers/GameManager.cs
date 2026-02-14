@@ -1,16 +1,6 @@
 using UnityEngine;
-using PhikozzLibrary.Runtime.ServiceLocater;
+using PhikozzLibrary;
 
 public class GameManager : GenericSingleton<GameManager>, IGameService
 {
-    private void Awake()
-    {
-        base.Awake();
-        RegisterServices();
-    }
-    
-    public void RegisterServices()
-    {
-        ServiceRegister.RegisterAllServices();
-    }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PhikozzLibrary.Runtime.ServiceLocater
+namespace PhikozzLibrary
 {
     public interface IAudioService 
     {

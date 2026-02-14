@@ -1,5 +1,5 @@
 using UnityEngine;
-using PhikozzLibrary.Runtime.ServiceLocater;
+using PhikozzLibrary;
 
 public class AudioManager : GenericSingleton<AudioManager>, IAudioService
 {
