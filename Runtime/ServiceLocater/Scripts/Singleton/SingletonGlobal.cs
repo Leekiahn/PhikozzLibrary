@@ -3,10 +3,10 @@ using UnityEngine;
 namespace PhikozzLibrary
 {
     /// <summary>
-    /// 제네릭 싱글톤 베이스 클래스
+    /// DontDestroyOnLoad 제네릭 싱글톤
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class GenericSingleton<T> : MonoBehaviour where T : Component
+    public class SingletonGlobal<T> : MonoBehaviour where T : Component
     {
         private static T _instance;
 

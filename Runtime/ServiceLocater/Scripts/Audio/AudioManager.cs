@@ -1,7 +1,7 @@
 using UnityEngine;
 using PhikozzLibrary;
 
-public class AudioManager : GenericSingleton<AudioManager>, IAudioService
+public class AudioManager : SingletonGlobal<AudioManager>, IAudioService
 {
     private AudioSource _audioSource;
 
