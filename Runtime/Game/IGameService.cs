@@ -1,9 +1,10 @@
-using UnityEngine;
-
-public interface IGameService 
+namespace PhikozzLibrary
 {
-    void StartGame();
-    void PauseGame();
-    void ResumeGame();
-    void EndGame();
+    public interface IGameService 
+    {
+        void StartGame();
+        void PauseGame();
+        void ResumeGame();
+        void EndGame();
+    }
 }
