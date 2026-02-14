@@ -1,17 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using PhikozzLibrary;
 
 public class EventManager : SingletonGlobal<EventManager>, IEventService
 {
     private readonly Dictionary<Type, Delegate> _eventTable = new Dictionary<Type, Delegate>();
 
-    /// <summary>
-    /// Start 구독해야 함
-    /// </summary>
-    /// <param name="onEvent"></param>
-    /// <typeparam name="T"></typeparam>
+    public UniTask<bool> InitAsync()
+    {
+            ServiceLocator.Register<IEventService>(this);
+        return UniTask.FromResult(true);
+    }
+    
     public void Subscribe<T>(Action<T> onEvent) where T : IGameEvent
     {
         var type = typeof(T);

@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public interface IPreinitialize 
+public interface IPreinitialize
 {
-    UniTask<T> PreinitializeAsync<T>() where T : MonoBehaviour;
+    UniTask<bool> InitAsync();
 }

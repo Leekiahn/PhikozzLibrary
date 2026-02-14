@@ -1,16 +1,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
 
 namespace PhikozzLibrary
 {
-    public class PoolManager : SingletonGlobal<PoolManager>, IPoolService
+    public class PoolManager : SingletonGlobal<PoolManager>, IPoolService, IPreinitialize
     {
         private Dictionary<string, object> _pools = new Dictionary<string, object>();
         private Dictionary<string, HashSet<MonoBehaviour>> _activeObjects = new Dictionary<string, HashSet<MonoBehaviour>>();
 
+        public UniTask<bool> InitAsync()
+        {
+            ServiceLocator.Register<IPoolService>(this);
+            return UniTask.FromResult(true);
+        }
+        
         public void CreatePool<T>(T prefab, int defaultCapacity, int maxSize) where T : MonoBehaviour, IPoolObject
         {
             if (!_pools.ContainsKey(prefab.name))

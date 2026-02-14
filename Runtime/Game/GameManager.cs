@@ -1,8 +1,16 @@
 using PhikozzLibrary;
+using Cysharp.Threading.Tasks;
 
-public class GameManager : SingletonGlobal<GameManager>, IGameService
+public class GameManager : SingletonGlobal<GameManager>, IGameService, IPreinitialize
 {
     private eGameState currentState;
+    
+    public UniTask<bool> InitAsync()
+    {
+        // 초기화 로직
+        ServiceLocator.Register<IGameService>(this);
+        return UniTask.FromResult(true);
+    }
 
     public void StartGame()
     {
