@@ -15,6 +15,7 @@ public class ServiceRegister : MonoBehaviour
     private void RegisterAllServices()
     {
         ServiceLocator.Register<IAudioService>(AudioManager.Instance);
+        ServiceLocator.Register<IPoolService>(PoolManager.Instance);
         // 서비스 등록 추가
     }
 
