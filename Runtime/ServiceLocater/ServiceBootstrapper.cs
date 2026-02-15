@@ -13,6 +13,8 @@ public class ServiceBootstrapper : MonoBehaviour
         
         initResult = await GameManager.Instance.InitAsync() ? "✅ GameManager 초기화 성공" : "❌ GameManager 초기화 실패";
         Debug.Log(initResult);
+        initResult = await ResourceManager.Instance.InitAsync() ? "✅ ResourceManager 초기화 성공" : "❌ ResourceManager 초기화 실패";
+        Debug.Log(initResult);
         initResult = await AudioManager.Instance.InitAsync() ? "✅ AudioManager 초기화 성공" : "❌ AudioManager 초기화 실패";
         Debug.Log(initResult);
         initResult = await PoolManager.Instance.InitAsync() ? "✅ PoolManager 초기화 성공" : "❌ PoolManager 초기화 실패";

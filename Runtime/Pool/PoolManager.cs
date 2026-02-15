@@ -8,7 +8,6 @@ using PhikozzLibrary;
 public class PoolManager : SingletonGlobal<PoolManager>, IPoolService, IPreinitialize
 {
     private Dictionary<string, object> _pools = new Dictionary<string, object>();
-
     private Dictionary<string, HashSet<MonoBehaviour>>
         _activeObjects = new Dictionary<string, HashSet<MonoBehaviour>>();
 
