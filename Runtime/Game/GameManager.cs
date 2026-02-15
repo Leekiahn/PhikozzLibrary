@@ -4,12 +4,18 @@ using Cysharp.Threading.Tasks;
 public class GameManager : SingletonGlobal<GameManager>, IGameService, IPreinitialize
 {
     private eGameState currentState;
-    
+
     public UniTask<bool> InitAsync()
     {
-        // 초기화 로직
-        ServiceLocator.Register<IGameService>(this);
-        return UniTask.FromResult(true);
+        try
+        {
+            ServiceLocator.Register<IGameService>(this);
+            return UniTask.FromResult(true);
+        }
+        catch (System.Exception ex)
+        {
+            return UniTask.FromResult(false);
+        }
     }
 
     public void StartGame()

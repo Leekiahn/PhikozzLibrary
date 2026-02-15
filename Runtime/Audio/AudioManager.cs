@@ -1,6 +1,5 @@
 using UnityEngine;
 using PhikozzLibrary;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 
 public class AudioManager : SingletonGlobal<AudioManager>, IAudioService, IPreinitialize
@@ -9,9 +8,18 @@ public class AudioManager : SingletonGlobal<AudioManager>, IAudioService, IPrein
 
     public UniTask<bool> InitAsync()
     {
-        _audioSource = gameObject.AddComponent<AudioSource>();
-        ServiceLocator.Register<IAudioService>(this);
-        return UniTask.FromResult(true);
+        try
+        {
+            _audioSource = GetComponent<AudioSource>();
+            if (_audioSource == null) throw new System.Exception("AudioSource 컴포넌트가 프리팹에 없습니다.");
+            ServiceLocator.Register<IAudioService>(this);
+            return UniTask.FromResult(true);
+        }
+        catch (System.Exception ex)
+        {
+            // 초기화 실패 처리
+            return UniTask.FromResult(false);
+        }
     }
 
     public void PlayBGM(AudioClip clip, bool loop = true)

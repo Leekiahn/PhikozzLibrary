@@ -30,7 +30,6 @@ namespace PhikozzLibrary
             if (_instance == null)
             {
                 _instance = this as T;
-                Debug.Log(typeof(T).Name + " 인스턴스가 생성되었습니다.");
                 DontDestroyOnLoad(this.gameObject);
             }
             else

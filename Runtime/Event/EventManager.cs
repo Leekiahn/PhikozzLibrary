@@ -10,8 +10,16 @@ public class EventManager : SingletonGlobal<EventManager>, IEventService
 
     public UniTask<bool> InitAsync()
     {
+        try
+        {
             ServiceLocator.Register<IEventService>(this);
-        return UniTask.FromResult(true);
+            return UniTask.FromResult(true);
+        }
+        catch (Exception ex)
+        {
+            // 초기화 실패 처리
+            return UniTask.FromResult(false);
+        }
     }
     
     public void Subscribe<T>(Action<T> onEvent) where T : IGameEvent

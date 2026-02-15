@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2796968268348911017}
   - component: {fileID: 7799055205721790258}
-  - component: {fileID: 5826343682213834658}
+  - component: {fileID: 6203990443745910743}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c89f4ed4f0372a4ba2c999657bea7b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!82 &5826343682213834658
+--- !u!82 &6203990443745910743
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

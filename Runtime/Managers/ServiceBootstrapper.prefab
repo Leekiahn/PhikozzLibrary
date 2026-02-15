@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7816783115797982996}
   - component: {fileID: 5870907423695283421}
   m_Layer: 0
-  m_Name: ServiceRegister
+  m_Name: ServiceBootstrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
