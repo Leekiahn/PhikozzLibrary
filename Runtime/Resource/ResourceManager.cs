@@ -53,21 +53,21 @@ public class ResourceManager : SingletonGlobal<ResourceManager>, IResourceServic
         return null;
     }
 
-    public void Unload(string key)
+    public void ReleaseByKey(string key)
     {
         if (_loadedHandles.TryGetValue(key, out var handle))
         {
             Addressables.Release(handle);
             _loadedHandles.Remove(key);
-            Debug.Log("리소스 언로드 성공: " + key);
+            Debug.Log("메모리에서 리소스 해제함: " + key);
         }
         else
         {
-            Debug.LogWarning($"언로드할 리소스가 없습니다: {key}");
+            Debug.LogWarning($"해제할 리소스가 없습니다: {key}");
         }
     }
     
-    public void UnloadHandleList(string label)
+    public void ReleaseByLabel(string label)
     {
         if (_loadedHandleLists.TryGetValue(label, out var handleList))
         {
@@ -76,11 +76,11 @@ public class ResourceManager : SingletonGlobal<ResourceManager>, IResourceServic
                 Addressables.Release(handle);
             }
             _loadedHandleLists.Remove(label);
-            Debug.Log("리소스 리스트 언로드 성공: " + label);
+            Debug.Log("메모리에서 해당 레이블의 리소스 해제함: " + label);
         }
         else
         {
-            Debug.LogWarning($"언로드할 리소스 리스트가 없습니다: {label}");
+            Debug.LogWarning($"해제할 레이블의 리소스가 없습니다: {label}");
         }
     }
 }
