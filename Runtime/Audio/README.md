@@ -38,14 +38,6 @@ await AudioManager.Instance.InitAsync();  // AudioSource 존재 확인 및 Servi
 
 ---
 
-## 관련 의존성
-
-- UnityEngine
-- Cysharp.Threading.Tasks
-- PhikozzLibrary 내 ServiceLocator 및 싱글톤 베이스클래스
-
----
-
 ## 참고
 
 - [전체 소스 보기](https://github.com/Leekiahn/PhikozzLibrary/tree/a5f3227ccab8521bdef2265259122a6c7daab578/Runtime/Audio)
