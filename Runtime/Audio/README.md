@@ -21,13 +21,13 @@ Unity에서 배경음악(BGM) 및 효과음(SFX) 관리에 사용되는 오디�
 
 ```csharp
 // AudioManager를 통한 BGM 재생
-AudioManager.Instance.PlayBGM(myBGMClip);           // 배경음악 재생, 기본적으로 반복(loop)
+Global.Audio.PlayBGM(myBGMClip);           // 배경음악 재생, 기본적으로 반복(loop)
 
 // SFX(효과음) 재생
-AudioManager.Instance.PlaySFX(mySFXClip);
+Global.Audio.PlaySFX(mySFXClip);
 
 // BGM 정지
-AudioManager.Instance.StopBGM();
+Global.Audio.Instance.StopBGM();
 ```
 
 비동기 초기화 및 서비스 등록은 다음과 같이 이루어집니다:
