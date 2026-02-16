@@ -22,6 +22,18 @@
 
 ---
 
+## 서비스 등록 전 Null 발생 해결 방법
+
+만약 아래와 같이 서비스를 사용하기 전에 등록이 되지 않아 `Null`이 발생할 경우에는 다음 방법을 사용하세요:
+
+```csharp
+await UniTask.WaitUntil(() => ServiceLocator.Get<ISaveService>() != null);
+```
+
+서비스가 등록될 때까지 기다린 뒤 메서드를 호출하면 `Null` 예외를 방지할 수 있습니다.
+
+---
+
 ## 🗃️ 의존성
 
 - [![DoTween](https://img.shields.io/badge/DoTween-Animation-blue)](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
