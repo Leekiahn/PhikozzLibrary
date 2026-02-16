@@ -33,7 +33,7 @@ public class PlayerDeadEvent : IGameEvent
 ### 2. 구독(Subscribe)
 
 ```csharp
-EventManager.Instance.Subscribe<PlayerDeadEvent>(OnPlayerDead);
+Global.Event.Subscribe<PlayerDeadEvent>(OnPlayerDead);
 
 void OnPlayerDead(PlayerDeadEvent evt) {
     // 이벤트 처리 로직
@@ -43,13 +43,13 @@ void OnPlayerDead(PlayerDeadEvent evt) {
 ### 3. 발행(Publish)
 
 ```csharp
-EventManager.Instance.Publish(new PlayerDeadEvent());
+Global.Event.Publish(new PlayerDeadEvent());
 ```
 
 ### 4. 구독 해제(Unsubscribe)
 
 ```csharp
-EventManager.Instance.Unsubscribe<PlayerDeadEvent>(OnPlayerDead);
+Global.Event.Unsubscribe<PlayerDeadEvent>(OnPlayerDead);
 ```
 
 ---
