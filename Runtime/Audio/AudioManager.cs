@@ -17,7 +17,7 @@ public class AudioManager : SingletonGlobal<AudioManager>, IAudioService, IPrein
         }
         catch (System.Exception ex)
         {
-            Debug.LogWarning("저장 시스템 초기화 실패: " + ex.Message);
+            Debug.LogWarning("서비스 초기화 실패: " + ex.Message);
             return UniTask.FromResult(false);
         }
     }

@@ -18,7 +18,7 @@ public class UIManager : SingletonGlobal<UIManager>, IUIService, IPreinitialize
         catch (System.Exception ex)
         {
             // 초기화 실패 처리
-            Debug.LogWarning("저장 시스템 초기화 실패: " + ex.Message);
+            Debug.LogWarning("서비스 초기화 실패: " + ex.Message);
             return UniTask.FromResult(false);
         }
     }
