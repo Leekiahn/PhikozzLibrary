@@ -7,18 +7,18 @@
 
 ## 📚 목차
 
-- [ServiceLocater](./ServiceLocater/)  
-- [Singleton](./Singleton/)  
-- [Game](./Game/)  
-- [Audio](./Audio/)  
-- [Event](./Event/)  
-- [Pool](./Pool/)  
-- [Resource](./Resource/)  
-- [Save](./Save/)  
-- [UI](./UI/)  
-- [Preinitialize](./Preinitialize/)  
-- [FSM](./FSM/)  
-- [Editor](./Editor/)  
+- [ServiceLocater](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/ServiceLocater)  
+- [Singleton](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/Singleton)  
+- [Game](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/Game)  
+- [Audio](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/Audio)  
+- [Event](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/Event)  
+- [Pool](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/Pool)  
+- [Resource](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/Resource)  
+- [Save](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/Save)  
+- [UI](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/UI)  
+- [Preinitialize](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/Preinitialize)  
+- [FSM](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Runtime/FSM)  
+- [Editor](https://github.com/Leekiahn/PhikozzLibrary/tree/main/Editor)  
 
 ---
 
