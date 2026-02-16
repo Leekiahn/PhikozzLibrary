@@ -23,7 +23,7 @@
 await GameManager.Instance.InitAsync();
 
 // 게임 상태, 진행, 흐름 컨트롤 등
-GameManager.Instance.SetGameState(GameState.Playing);
+Global.Game.SetGameState(GameState.Playing);
 ```
 
 ### ServiceLocator를 통한 서비스 등록/조회
