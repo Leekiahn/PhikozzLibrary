@@ -12,6 +12,6 @@
   },
   "dependencies": {
     "com.unity.addressables": "2.7.6",
-    "com.cysharp.unitask": "2.5.10"
+    "com.cysharp.unitask": "2.5.10",
   }
 }
