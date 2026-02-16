@@ -21,6 +21,8 @@ public class ServiceBootstrapper : MonoBehaviour
         Debug.Log(initResult);
         initResult = await EventManager.Instance.InitAsync() ? "✅ EventManager 초기화 성공" : "❌ EventManager 초기화 실패";
         Debug.Log(initResult);
+        initResult = await SaveManager.Instance.InitAsync() ? "✅ SaveManager 초기화 성공" : "❌ SaveManager 초기화 실패";
+        Debug.Log(initResult);
     }
 
     private void InstantiateManagers()
