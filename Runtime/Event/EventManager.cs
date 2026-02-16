@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using PhikozzLibrary;
+using UnityEngine;
 
 public class EventManager : SingletonGlobal<EventManager>, IEventService
 {
@@ -18,6 +18,7 @@ public class EventManager : SingletonGlobal<EventManager>, IEventService
         catch (Exception ex)
         {
             // 초기화 실패 처리
+            Debug.LogWarning("서비스 초기화 실패: " + ex.Message);
             return UniTask.FromResult(false);
         }
     }

@@ -9,5 +9,9 @@
     "name": "Phikozz",
     "email": "kiahn2000@gmail.com",
     "url": "https://github.com/Leekiahn/PhikozzLibrary"
+  },
+  "dependencies": {
+    "com.unity.addressables": "2.7.6",
+    "com.cysharp.unitask": "2.5.10"
   }
 }

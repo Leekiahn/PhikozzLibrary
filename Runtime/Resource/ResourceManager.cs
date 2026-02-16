@@ -17,8 +17,9 @@ public class ResourceManager : SingletonGlobal<ResourceManager>, IResourceServic
             ServiceLocator.Register<IResourceService>(this);
             return UniTask.FromResult(true);
         }
-        catch
+        catch (System.Exception ex)
         {
+            Debug.LogWarning("서비스 초기화 실패: " + ex.Message);
             return UniTask.FromResult(false);
         }
     }
