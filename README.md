@@ -34,6 +34,12 @@ await UniTask.WaitUntil(() => ServiceLocator.Get<ISaveService>() != null);
 
 ---
 
+## 패키지 직접 코드 수정
+
+패키지 내 코드를 수정해야 하는 경우, Unity 패키지 캐시 경로(`Library/PackageCache/com.phikozz.phikozzlibrary`)의 해당 폴더를 프로젝트의 `Packages` 폴더로 이동한 뒤 코드 수정을 진행하세요.
+
+---
+
 ## 🗃️ 의존성
 
 - [![Addressable](https://img.shields.io/badge/Addressable-Asset%20Management-brightgreen)](https://docs.unity3d.com/kr/current/Manual/com.unity.addressables.html)
