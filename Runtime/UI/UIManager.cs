@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class UIManager : SingletonGlobal<UIManager>, IUIService, IPreinitialize
 {
-    private Dictionary<Enum, GameObject> _panels = new Dictionary<Enum, GameObject>();
+    private Dictionary<Type, BaseUIPanel> _panels = new Dictionary<Type, BaseUIPanel>();
 
     public UniTask<bool> InitAsync()
     {
@@ -22,44 +22,40 @@ public class UIManager : SingletonGlobal<UIManager>, IUIService, IPreinitialize
             return UniTask.FromResult(false);
         }
     }
+    
+    public void RegisterPanel<T>(T panel) where T : BaseUIPanel
+    {
+        var type = typeof(T);
+        if (!_panels.ContainsKey(type))
+        {
+            _panels[type] = panel;
+        }
+    }
 
-    public void RegisterPanel<T>(T key, GameObject panel) where T : Enum
+    public void UnregisterPanel<T>() where T : BaseUIPanel
     {
-        if (!_panels.ContainsKey(key))
+        var type = typeof(T);
+        if (_panels.ContainsKey(type))
         {
-            _panels[key] = panel;
+            _panels.Remove(type);
         }
     }
-    
-    public void UnregisterPanel<T>(T key) where T : Enum
+
+    public void ShowPanel<T>() where T : BaseUIPanel
     {
-        if (_panels.ContainsKey(key))
+        var type = typeof(T);
+        if (_panels.TryGetValue(type, out var panel))
         {
-            _panels.Remove(key);
+            panel.Open();
         }
     }
-    
-    public void ShowPanel<T>(T key) where T : Enum
+
+    public void HidePanel<T>() where T : BaseUIPanel
     {
-        if (_panels.TryGetValue(key, out var panel))
+        var type = typeof(T);
+        if (_panels.TryGetValue(type, out var panel))
         {
-            panel.SetActive(true);
-        }
-        else
-        {
-            Debug.LogWarning($"패널을 찾을 수 없습니다: {key}");
-        }
-    }
-    
-    public void HidePanel<T>(T key) where T : Enum
-    {
-        if (_panels.TryGetValue(key, out var panel))
-        {
-            panel.SetActive(false);
-        }
-        else
-        {
-            Debug.LogWarning($"패널을 찾을 수 없습니다: {key}");
+            panel.Close();
         }
     }
 }
