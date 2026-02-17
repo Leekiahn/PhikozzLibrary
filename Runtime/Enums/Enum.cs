@@ -4,3 +4,10 @@ public enum eGameState
     Paused,
     Ended
 }
+
+public enum eFadeTargetType
+{
+    CanvasGroup,
+    SpriteRenderer,
+    Image,
+}
