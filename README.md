@@ -45,4 +45,4 @@ await UniTask.WaitUntil(() => ServiceLocator.Get<ISaveService>() != null);
 
 - [![Addressable](https://img.shields.io/badge/Addressable-Asset%20Management-brightgreen)](https://docs.unity3d.com/kr/current/Manual/com.unity.addressables.html)
 - [![UniTask](https://img.shields.io/badge/UniTask-Async%20Utility-orange)](https://github.com/Cysharp/UniTask)
-- [![DOTween](https://img.shields.io/badge/DOTween-Tween%20Animation-blue)](http://dotween.demigiant.com/documentation.php)
+- [![DOTween](https://img.shields.io/badge/DOTween-Tween%20Animation-blue)](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
