@@ -16,9 +16,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "ESC",
+                    "name": "Esc",
                     "type": "Button",
-                    "id": "d5ab7b4b-b810-4915-8a1d-4cc3fb59d839",
+                    "id": "c343d626-4039-4a56-8106-cfa97a022f48",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -83,12 +83,12 @@
                 },
                 {
                     "name": "",
-                    "id": "8f8ffcc0-c5cd-490b-93f5-27c0dddfedc3",
+                    "id": "6eaa2ae4-e3a8-41bc-81e4-bc86a12990db",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ESC",
+                    "action": "Esc",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

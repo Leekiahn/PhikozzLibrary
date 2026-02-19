@@ -60,14 +60,6 @@ namespace PhikozzLibrary
             }
         }
 
-        public void TogglePanel<T>() where T : BaseUIPanel
-        {
-            if (IsPanelOpen<T>())
-                HidePanel<T>();
-            else
-                ShowPanel<T>();
-        }
-
         public bool IsPanelOpen<T>() where T : BaseUIPanel
         {
             if (_panels.TryGetValue(typeof(T), out var panel))
