@@ -25,6 +25,8 @@ public class ServiceBootstrapper : MonoBehaviour
         Debug.Log(initResult);
         initResult = await UIManager.Instance.InitAsync() ? "✅ UIManager 초기화 성공" : "❌ UIManager 초기화 실패";
         Debug.Log(initResult);
+        initResult = await InputManager.Instance.InitAsync() ? "✅ InputManager 초기화 성공" : "❌ InputManager 초기화 실패";
+        Debug.Log(initResult);
     }
 
     private void InstantiateManagers()
