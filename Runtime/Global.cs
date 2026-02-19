@@ -9,6 +9,5 @@ namespace PhikozzLibrary
         public static IResourceService Resource => ServiceLocator.Get<IResourceService>();
         public static ISaveService Save => ServiceLocator.Get<ISaveService>();
         public static IUIService UI => ServiceLocator.Get<IUIService>();
-        public static IInputServiece Input => ServiceLocator.Get<IInputServiece>();
     }
 }

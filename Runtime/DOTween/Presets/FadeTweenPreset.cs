@@ -1,10 +1,13 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "FadeTweenPreset", menuName = "PhikozzLibrary/TweenPresets/Fade")]
-public class FadeTweenPreset : BaseTweenPreset
+namespace PhikozzLibrary
 {
-    [Header("Fade")]
-    [SerializeField] private float _endAlpha = 1f;
+    [CreateAssetMenu(fileName = "FadeTweenPreset", menuName = "PhikozzLibrary/TweenPresets/Fade")]
+    public class FadeTweenPreset : BaseTweenPreset
+    {
+        [Header("Fade")]
+        [SerializeField] private float _endAlpha = 1f;
 
-    public float GetEndAlpha() => _endAlpha;
+        public float GetEndAlpha() => _endAlpha;
+    }
 }

@@ -1,4 +1,4 @@
-namespace  PhikozzLibrary.Runtime.FSM
+namespace  PhikozzLibrary
 {
     public interface IState
     {

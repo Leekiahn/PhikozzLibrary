@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PhikozzLibrary.Runtime.FSM
+namespace PhikozzLibrary
 {
     public abstract class BaseStateMachine<TState> where TState : IState
     {

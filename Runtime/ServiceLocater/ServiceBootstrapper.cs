@@ -1,41 +1,41 @@
 using System.Collections.Generic;
 using UnityEngine;
-using PhikozzLibrary;
 
-public class ServiceBootstrapper : MonoBehaviour
+namespace PhikozzLibrary
 {
-    public List<GameObject> managerPrefabs = new List<GameObject>(); // 매니저 프리팹 리스트
-
-    private async void Awake()
+    public class ServiceBootstrapper : MonoBehaviour
     {
-        InstantiateManagers();
-        string initResult = string.Empty;
-        
-        initResult = await GameManager.Instance.InitAsync() ? "✅ GameManager 초기화 성공" : "❌ GameManager 초기화 실패";
-        Debug.Log(initResult);
-        initResult = await ResourceManager.Instance.InitAsync() ? "✅ ResourceManager 초기화 성공" : "❌ ResourceManager 초기화 실패";
-        Debug.Log(initResult);
-        initResult = await AudioManager.Instance.InitAsync() ? "✅ AudioManager 초기화 성공" : "❌ AudioManager 초기화 실패";
-        Debug.Log(initResult);
-        initResult = await PoolManager.Instance.InitAsync() ? "✅ PoolManager 초기화 성공" : "❌ PoolManager 초기화 실패";
-        Debug.Log(initResult);
-        initResult = await EventManager.Instance.InitAsync() ? "✅ EventManager 초기화 성공" : "❌ EventManager 초기화 실패";
-        Debug.Log(initResult);
-        initResult = await SaveManager.Instance.InitAsync() ? "✅ SaveManager 초기화 성공" : "❌ SaveManager 초기화 실패";
-        Debug.Log(initResult);
-        initResult = await UIManager.Instance.InitAsync() ? "✅ UIManager 초기화 성공" : "❌ UIManager 초기화 실패";
-        Debug.Log(initResult);
-        initResult = await InputManager.Instance.InitAsync() ? "✅ InputManager 초기화 성공" : "❌ InputManager 초기화 실패";
-        Debug.Log(initResult);
-    }
+        public List<GameObject> managerPrefabs = new List<GameObject>(); // 매니저 프리팹 리스트
 
-    private void InstantiateManagers()
-    {
-        foreach (var prefab in managerPrefabs)
+        private async void Awake()
         {
-            if (prefab != null)
+            InstantiateManagers();
+            string initResult = string.Empty;
+
+            initResult = await GameManager.Instance.InitAsync() ? "✅ GameManager 초기화 성공" : "❌ GameManager 초기화 실패";
+            Debug.Log(initResult);
+            initResult = await ResourceManager.Instance.InitAsync() ? "✅ ResourceManager 초기화 성공" : "❌ ResourceManager 초기화 실패";
+            Debug.Log(initResult);
+            initResult = await AudioManager.Instance.InitAsync() ? "✅ AudioManager 초기화 성공" : "❌ AudioManager 초기화 실패";
+            Debug.Log(initResult);
+            initResult = await PoolManager.Instance.InitAsync() ? "✅ PoolManager 초기화 성공" : "❌ PoolManager 초기화 실패";
+            Debug.Log(initResult);
+            initResult = await EventManager.Instance.InitAsync() ? "✅ EventManager 초기화 성공" : "❌ EventManager 초기화 실패";
+            Debug.Log(initResult);
+            initResult = await SaveManager.Instance.InitAsync() ? "✅ SaveManager 초기화 성공" : "❌ SaveManager 초기화 실패";
+            Debug.Log(initResult);
+            initResult = await UIManager.Instance.InitAsync() ? "✅ UIManager 초기화 성공" : "❌ UIManager 초기화 실패";
+            Debug.Log(initResult);
+        }
+
+        private void InstantiateManagers()
+        {
+            foreach (var prefab in managerPrefabs)
             {
-                Instantiate(prefab);
+                if (prefab != null)
+                {
+                    Instantiate(prefab);
+                }
             }
         }
     }

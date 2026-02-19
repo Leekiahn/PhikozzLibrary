@@ -1,12 +1,15 @@
 using UnityEngine;
 
-public abstract class BaseUIPanel : MonoBehaviour
+namespace PhikozzLibrary
 {
-    public virtual void Open()
+    public abstract class BaseUIPanel : MonoBehaviour
     {
-    }
-    
-    public virtual void Close()
-    {
+        public virtual void Open()
+        {
+        }
+
+        public virtual void Close()
+        {
+        }
     }
 }

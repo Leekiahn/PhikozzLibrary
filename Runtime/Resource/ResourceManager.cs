@@ -5,83 +5,86 @@ using System.Collections.Generic;
 using UnityEngine;
 using PhikozzLibrary;
 
-public class ResourceManager : SingletonGlobal<ResourceManager>, IResourceService, IPreinitialize
+namespace PhikozzLibrary
 {
-    private Dictionary<string, AsyncOperationHandle> _loadedHandles = new();
-    private Dictionary<string, List<AsyncOperationHandle>> _loadedHandleLists = new();
-
-    public UniTask<bool> InitAsync()
+    public class ResourceManager : SingletonGlobal<ResourceManager>, IResourceService, IPreinitialize
     {
-        try
-        {
-            ServiceLocator.Register<IResourceService>(this);
-            return UniTask.FromResult(true);
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogWarning("서비스 초기화 실패: " + ex.Message);
-            return UniTask.FromResult(false);
-        }
-    }
+        private Dictionary<string, AsyncOperationHandle> _loadedHandles = new();
+        private Dictionary<string, List<AsyncOperationHandle>> _loadedHandleLists = new();
 
-    public async UniTask<T> LoadAsync<T>(string key) where T : Object
-    {
-        var handle = Addressables.LoadAssetAsync<T>(key);
-        await handle.Task;
-
-        if (handle.Status == AsyncOperationStatus.Succeeded)
+        public UniTask<bool> InitAsync()
         {
-            _loadedHandles[key] = handle;
-            return handle.Result;
+            try
+            {
+                ServiceLocator.Register<IResourceService>(this);
+                return UniTask.FromResult(true);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogWarning("서비스 초기화 실패: " + ex.Message);
+                return UniTask.FromResult(false);
+            }
         }
 
-        Debug.LogError($"리소스 로드 실패: {key}");
-        return null;
-    }
-
-    public async UniTask<List<T>> LoadAllAsync<T>(string label) where T : Object
-    {
-        var handle = Addressables.LoadAssetsAsync<T>(label, null);
-        await handle.Task;
-
-        if (handle.Status == AsyncOperationStatus.Succeeded)
+        public async UniTask<T> LoadAsync<T>(string key) where T : Object
         {
-            _loadedHandleLists[label] = new List<AsyncOperationHandle> { handle };
-            return new List<T>(handle.Result);
+            var handle = Addressables.LoadAssetAsync<T>(key);
+            await handle.Task;
+
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+            {
+                _loadedHandles[key] = handle;
+                return handle.Result;
+            }
+
+            Debug.LogError($"리소스 로드 실패: {key}");
+            return null;
         }
 
-        Debug.LogError($"리소스 로드 실패: {label}");
-        return null;
-    }
+        public async UniTask<List<T>> LoadAllAsync<T>(string label) where T : Object
+        {
+            var handle = Addressables.LoadAssetsAsync<T>(label, null);
+            await handle.Task;
 
-    public void ReleaseByKey(string key)
-    {
-        if (_loadedHandles.TryGetValue(key, out var handle))
-        {
-            Addressables.Release(handle);
-            _loadedHandles.Remove(key);
-            Debug.Log("메모리에서 리소스 해제함: " + key);
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+            {
+                _loadedHandleLists[label] = new List<AsyncOperationHandle> { handle };
+                return new List<T>(handle.Result);
+            }
+
+            Debug.LogError($"리소스 로드 실패: {label}");
+            return null;
         }
-        else
+
+        public void ReleaseByKey(string key)
         {
-            Debug.LogWarning($"해제할 리소스가 없습니다: {key}");
-        }
-    }
-    
-    public void ReleaseByLabel(string label)
-    {
-        if (_loadedHandleLists.TryGetValue(label, out var handleList))
-        {
-            foreach (var handle in handleList)
+            if (_loadedHandles.TryGetValue(key, out var handle))
             {
                 Addressables.Release(handle);
+                _loadedHandles.Remove(key);
+                Debug.Log("메모리에서 리소스 해제함: " + key);
             }
-            _loadedHandleLists.Remove(label);
-            Debug.Log("메모리에서 해당 레이블의 리소스 해제함: " + label);
+            else
+            {
+                Debug.LogWarning($"해제할 리소스가 없습니다: {key}");
+            }
         }
-        else
+
+        public void ReleaseByLabel(string label)
         {
-            Debug.LogWarning($"해제할 레이블의 리소스가 없습니다: {label}");
+            if (_loadedHandleLists.TryGetValue(label, out var handleList))
+            {
+                foreach (var handle in handleList)
+                {
+                    Addressables.Release(handle);
+                }
+                _loadedHandleLists.Remove(label);
+                Debug.Log("메모리에서 해당 레이블의 리소스 해제함: " + label);
+            }
+            else
+            {
+                Debug.LogWarning($"해제할 레이블의 리소스가 없습니다: {label}");
+            }
         }
     }
 }

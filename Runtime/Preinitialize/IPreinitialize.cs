@@ -1,7 +1,10 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public interface IPreinitialize
+namespace PhikozzLibrary
 {
-    UniTask<bool> InitAsync();
+    public interface IPreinitialize
+    {
+        UniTask<bool> InitAsync();
+    }
 }

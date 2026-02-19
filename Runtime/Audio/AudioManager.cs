@@ -2,43 +2,46 @@ using UnityEngine;
 using PhikozzLibrary;
 using Cysharp.Threading.Tasks;
 
-public class AudioManager : SingletonGlobal<AudioManager>, IAudioService, IPreinitialize
+namespace PhikozzLibrary
 {
-    private AudioSource _audioSource;
-
-    public UniTask<bool> InitAsync()
+    public class AudioManager : SingletonGlobal<AudioManager>, IAudioService, IPreinitialize
     {
-        try
+        private AudioSource _audioSource;
+
+        public UniTask<bool> InitAsync()
         {
-            _audioSource = GetComponent<AudioSource>();
-            if (_audioSource == null) throw new System.Exception("AudioSource 컴포넌트가 프리팹에 없습니다.");
-            ServiceLocator.Register<IAudioService>(this);
-            return UniTask.FromResult(true);
+            try
+            {
+                _audioSource = GetComponent<AudioSource>();
+                if (_audioSource == null) throw new System.Exception("AudioSource 컴포넌트가 프리팹에 없습니다.");
+                ServiceLocator.Register<IAudioService>(this);
+                return UniTask.FromResult(true);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogWarning("서비스 초기화 실패: " + ex.Message);
+                return UniTask.FromResult(false);
+            }
         }
-        catch (System.Exception ex)
+
+        public void PlayBGM(AudioClip clip, bool loop = true)
         {
-            Debug.LogWarning("서비스 초기화 실패: " + ex.Message);
-            return UniTask.FromResult(false);
+            if (_audioSource == null || clip == null) return;
+            _audioSource.clip = clip;
+            _audioSource.loop = loop;
+            _audioSource.Play();
         }
-    }
 
-    public void PlayBGM(AudioClip clip, bool loop = true)
-    {
-        if (_audioSource == null || clip == null) return;
-        _audioSource.clip = clip;
-        _audioSource.loop = loop;
-        _audioSource.Play();
-    }
+        public void PlaySFX(AudioClip clip)
+        {
+            if (_audioSource == null || clip == null) return;
+            _audioSource.PlayOneShot(clip);
+        }
 
-    public void PlaySFX(AudioClip clip)
-    {
-        if (_audioSource == null || clip == null) return;
-        _audioSource.PlayOneShot(clip);
-    }
-
-    public void StopBGM()
-    {
-        if (_audioSource == null) return;
-        _audioSource.Stop();
+        public void StopBGM()
+        {
+            if (_audioSource == null) return;
+            _audioSource.Stop();
+        }
     }
 }
