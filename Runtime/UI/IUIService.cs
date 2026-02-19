@@ -9,5 +9,7 @@ namespace PhikozzLibrary
         void UnregisterPanel<T>() where T : BaseUIPanel;
         void ShowPanel<T>() where T : BaseUIPanel;
         void HidePanel<T>() where T : BaseUIPanel;
+        void TogglePanel<T>() where T : BaseUIPanel;
+        bool IsPanelOpen<T>() where T : BaseUIPanel;
     }
 }

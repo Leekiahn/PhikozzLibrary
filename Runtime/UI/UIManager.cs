@@ -59,5 +59,20 @@ namespace PhikozzLibrary
                 panel.Close();
             }
         }
+
+        public void TogglePanel<T>() where T : BaseUIPanel
+        {
+            if (IsPanelOpen<T>())
+                HidePanel<T>();
+            else
+                ShowPanel<T>();
+        }
+
+        public bool IsPanelOpen<T>() where T : BaseUIPanel
+        {
+            if (_panels.TryGetValue(typeof(T), out var panel))
+                return panel.gameObject.activeSelf;
+            return false;
+        }
     }
 }
