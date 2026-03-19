@@ -12,8 +12,6 @@ namespace PhikozzLibrary
         {
             try
             {
-                _audioSource = GetComponent<AudioSource>();
-                if (_audioSource == null) throw new System.Exception("AudioSource 컴포넌트가 프리팹에 없습니다.");
                 ServiceLocator.Register<IAudioService>(this);
                 return UniTask.FromResult(true);
             }

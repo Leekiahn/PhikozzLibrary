@@ -19,7 +19,6 @@ namespace PhikozzLibrary
             if (data == null || data.tweenPreset == null || _target == null)
                 return;
 
-            // 기존 트윈 종료
             _currentTween?.Kill();
 
             var preset = data.tweenPreset as ScaleTweenPreset;

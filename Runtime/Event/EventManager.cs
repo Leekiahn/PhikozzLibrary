@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PhikozzLibrary
 {
-    public class EventManager : SingletonGlobal<EventManager>, IEventService
+    public class EventManager : SingletonGlobal<EventManager>, IEventService, IPreinitialize
     {
         private readonly Dictionary<Type, Delegate> _eventTable = new Dictionary<Type, Delegate>();
 
@@ -18,7 +18,6 @@ namespace PhikozzLibrary
             }
             catch (Exception ex)
             {
-                // 초기화 실패 처리
                 Debug.LogWarning("서비스 초기화 실패: " + ex.Message);
                 return UniTask.FromResult(false);
             }
