@@ -3,7 +3,8 @@ using UnityEngine.AddressableAssets;
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
-using PhikozzLibrary;
+using System;
+using Object = UnityEngine.Object;
 
 namespace PhikozzLibrary
 {
@@ -12,17 +13,17 @@ namespace PhikozzLibrary
         private Dictionary<string, AsyncOperationHandle> _loadedHandles = new();
         private Dictionary<string, List<AsyncOperationHandle>> _loadedHandleLists = new();
 
-        public UniTask<bool> InitAsync()
+        public bool Init()
         {
             try
             {
                 ServiceLocator.Register<IResourceService>(this);
-                return UniTask.FromResult(true);
+                return true;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogWarning("서비스 초기화 실패: " + ex.Message);
-                return UniTask.FromResult(false);
+                return false;
             }
         }
 

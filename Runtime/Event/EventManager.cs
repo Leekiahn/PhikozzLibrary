@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace PhikozzLibrary
@@ -9,17 +8,17 @@ namespace PhikozzLibrary
     {
         private readonly Dictionary<Type, Delegate> _eventTable = new Dictionary<Type, Delegate>();
 
-        public UniTask<bool> InitAsync()
+        public bool Init()
         {
             try
             {
                 ServiceLocator.Register<IEventService>(this);
-                return UniTask.FromResult(true);
+                return true;
             }
             catch (Exception ex)
             {
                 Debug.LogWarning("서비스 초기화 실패: " + ex.Message);
-                return UniTask.FromResult(false);
+                return false;
             }
         }
 

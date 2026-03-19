@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
-using PhikozzLibrary;
+using System;
 
 namespace PhikozzLibrary
 {
@@ -13,17 +12,17 @@ namespace PhikozzLibrary
         private Dictionary<string, HashSet<MonoBehaviour>>
             _activeObjects = new Dictionary<string, HashSet<MonoBehaviour>>();
 
-        public UniTask<bool> InitAsync()
+        public bool Init()
         {
             try
             {
                 ServiceLocator.Register<IPoolService>(this);
-                return UniTask.FromResult(true);
+                return true;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogWarning("서비스 초기화 실패: " + ex.Message);
-                return UniTask.FromResult(false);
+                return false;
             }
         }
 

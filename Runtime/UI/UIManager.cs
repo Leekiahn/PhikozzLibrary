@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace PhikozzLibrary
@@ -9,18 +8,17 @@ namespace PhikozzLibrary
     {
         private Dictionary<Type, BaseUIPanel> _panels = new Dictionary<Type, BaseUIPanel>();
 
-        public UniTask<bool> InitAsync()
+        public bool Init()
         {
             try
             {
                 ServiceLocator.Register<IUIService>(this);
-                return UniTask.FromResult(true);
+                return true;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                // 초기화 실패 처리
                 Debug.LogWarning("서비스 초기화 실패: " + ex.Message);
-                return UniTask.FromResult(false);
+                return false;
             }
         }
 

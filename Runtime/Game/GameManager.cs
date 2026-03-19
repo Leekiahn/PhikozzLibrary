@@ -1,5 +1,5 @@
-using Cysharp.Threading.Tasks;
 using UnityEngine;
+using System;
 
 namespace PhikozzLibrary
 {
@@ -7,19 +7,20 @@ namespace PhikozzLibrary
     {
         private eGameState currentState;
 
-        public UniTask<bool> InitAsync()
+        public bool Init()
         {
             try
             {
                 ServiceLocator.Register<IGameService>(this);
-                return UniTask.FromResult(true);
+                return true;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogWarning("서비스 초기화 실패: " + ex.Message);
-                return UniTask.FromResult(false);
+                return false;
             }
         }
+
 
         public void StartGame()
         {

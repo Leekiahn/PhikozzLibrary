@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace PhikozzLibrary
@@ -14,10 +13,10 @@ namespace PhikozzLibrary
         {
             if (_initialized) return;
             _initialized = true;
-            BootstrapAsync().Forget();
+            Initialize();
         }
 
-        private static async UniTaskVoid BootstrapAsync()
+        private static void Initialize()
         {
             ManagerBootstrapConfig config = Resources.Load<ManagerBootstrapConfig>(ConfigResourcePath);
             if (config == null)
@@ -40,7 +39,7 @@ namespace PhikozzLibrary
 
             foreach (var initializer in initializers)
             {
-                bool success = await initializer.InitAsync();
+                bool success = initializer.Init();
                 Debug.Log(success
                     ? $"✅ {initializer.GetType().Name} 초기화 성공"
                     : $"❌ {initializer.GetType().Name} 초기화 실패");
