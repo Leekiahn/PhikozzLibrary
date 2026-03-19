@@ -1,12 +1,17 @@
+using System;
+using System.Threading;
 using UnityEngine;
-using PhikozzLibrary;
 using Cysharp.Threading.Tasks;
 
 namespace PhikozzLibrary
 {
+    [RequireComponent(typeof(AudioSource))]
     public class AudioManager : SingletonGlobal<AudioManager>, IAudioService, IPreinitialize
     {
-        private AudioSource _audioSource;
+        [SerializeField] private AudioSource bgmSource;
+        [SerializeField] private AudioSource sfxSource;
+
+        public bool IsPlayingBGM => bgmSource.isPlaying;
 
         public UniTask<bool> InitAsync()
         {
@@ -15,7 +20,7 @@ namespace PhikozzLibrary
                 ServiceLocator.Register<IAudioService>(this);
                 return UniTask.FromResult(true);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogWarning("서비스 초기화 실패: " + ex.Message);
                 return UniTask.FromResult(false);
@@ -24,22 +29,52 @@ namespace PhikozzLibrary
 
         public void PlayBGM(AudioClip clip, bool loop = true)
         {
-            if (_audioSource == null || clip == null) return;
-            _audioSource.clip = clip;
-            _audioSource.loop = loop;
-            _audioSource.Play();
+            bgmSource.clip = clip;
+            bgmSource.loop = loop;
+            bgmSource.Play();
         }
 
         public void PlaySFX(AudioClip clip)
         {
-            if (_audioSource == null || clip == null) return;
-            _audioSource.PlayOneShot(clip);
+            sfxSource.PlayOneShot(clip);
         }
 
         public void StopBGM()
         {
-            if (_audioSource == null) return;
-            _audioSource.Stop();
+            bgmSource.Stop();
+            bgmSource.clip = null;
+        }
+
+        public void PauseBGM()
+        {
+            bgmSource.Pause();
+        }
+
+        public void ResumeBGM()
+        {
+            bgmSource.UnPause();
+        }
+
+        public void SetBGMVolume(float volume = 100f)
+        {
+            volume /= 100f;
+            bgmSource.volume = Mathf.Clamp01(volume);
+        }
+
+        public void SetSFXVolume(float volume = 100f)
+        {
+            volume /= 100f;
+            sfxSource.volume = Mathf.Clamp01(volume);
+        }
+
+        public void MuteBGM(bool mute)
+        {
+            bgmSource.mute = mute;
+        }
+
+        public void MuteSFX(bool mute)
+        {
+            sfxSource.mute = mute;
         }
     }
 }
