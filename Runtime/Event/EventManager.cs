@@ -8,6 +8,7 @@ namespace PhikozzLibrary
     {
         private readonly Dictionary<Type, Delegate> _eventTable = new Dictionary<Type, Delegate>();
 
+        
         public bool Init()
         {
             try
@@ -22,6 +23,7 @@ namespace PhikozzLibrary
             }
         }
 
+        
         public void Subscribe<T>(Action<T> onEvent) where T : IGameEvent
         {
             var type = typeof(T);
@@ -31,6 +33,7 @@ namespace PhikozzLibrary
                 _eventTable[type] = onEvent;
         }
 
+        
         public void Unsubscribe<T>(Action<T> onEvent) where T : IGameEvent
         {
             var type = typeof(T);
@@ -44,6 +47,14 @@ namespace PhikozzLibrary
             }
         }
 
+        
+        public void UnSubscribeAll<T>() where T : IGameEvent
+        {
+            var type = typeof(T);
+            _eventTable.Remove(type);
+        }
+
+        
         public void Publish<T>(T eventData) where T : IGameEvent
         {
             var type = typeof(T);
