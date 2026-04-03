@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PhikozzLibrary
 {
-    public class EventManager : SingletonGlobal<EventManager>, IEventService, IPreinitialize
+    public class EventManager : SingletonGlobal<EventManager>, IEventService, IInitializable
     {
         private readonly Dictionary<Type, Delegate> _eventTable = new Dictionary<Type, Delegate>();
 

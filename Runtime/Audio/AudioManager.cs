@@ -4,7 +4,7 @@ using UnityEngine;
 namespace PhikozzLibrary
 {
     [RequireComponent(typeof(AudioSource))]
-    public class AudioManager : SingletonGlobal<AudioManager>, IAudioService, IPreinitialize
+    public class AudioManager : SingletonGlobal<AudioManager>, IAudioService, IInitializable
     {
         [SerializeField] private AudioSource bgmSource;
         [SerializeField] private AudioSource sfxSource;

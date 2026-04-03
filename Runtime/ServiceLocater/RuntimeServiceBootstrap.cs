@@ -27,13 +27,13 @@ namespace PhikozzLibrary
                 return;
             }
 
-            List<IPreinitialize> initializers = new List<IPreinitialize>();
+            List<IInitializable> initializers = new List<IInitializable>();
 
             foreach (var prefab in config.ManagerPrefabs)
             {
                 GameObject instance = Object.Instantiate(prefab);
 
-                IPreinitialize[] foundInitializers = instance.GetComponentsInChildren<IPreinitialize>(true);
+                IInitializable[] foundInitializers = instance.GetComponentsInChildren<IInitializable>(true);
                 initializers.AddRange(foundInitializers);
             }
 

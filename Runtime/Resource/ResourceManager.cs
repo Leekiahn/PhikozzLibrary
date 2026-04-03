@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 
 namespace PhikozzLibrary
 {
-    public class ResourceManager : SingletonGlobal<ResourceManager>, IResourceService, IPreinitialize
+    public class ResourceManager : SingletonGlobal<ResourceManager>, IResourceService, IInitializable
     {
         private Dictionary<string, AsyncOperationHandle> _loadedHandles = new();
         private Dictionary<string, List<AsyncOperationHandle>> _loadedHandleLists = new();

@@ -4,7 +4,7 @@ using System.IO;
 
 namespace PhikozzLibrary
 {
-    public class SaveManager : SingletonGlobal<SaveManager>, ISaveService, IPreinitialize
+    public class SaveManager : SingletonGlobal<SaveManager>, ISaveService, IInitializable
     {
         public bool Init()
         {

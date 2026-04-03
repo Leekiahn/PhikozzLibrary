@@ -1,6 +1,6 @@
 namespace PhikozzLibrary
 {
-    public interface IPreinitialize
+    public interface IInitializable
     {
         bool Init();
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PhikozzLibrary
 {
-    public class UIManager : SingletonGlobal<UIManager>, IUIService, IPreinitialize
+    public class UIManager : SingletonGlobal<UIManager>, IUIService, IInitializable
     {
         private Dictionary<Type, BaseUIPanel> _panels = new Dictionary<Type, BaseUIPanel>();
 

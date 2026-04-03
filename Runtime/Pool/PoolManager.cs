@@ -6,7 +6,7 @@ using System;
 
 namespace PhikozzLibrary
 {
-    public class PoolManager : SingletonGlobal<PoolManager>, IPoolService, IPreinitialize
+    public class PoolManager : SingletonGlobal<PoolManager>, IPoolService, IInitializable
     {
         private Dictionary<string, object> _pools = new Dictionary<string, object>();
         private Dictionary<string, HashSet<MonoBehaviour>>

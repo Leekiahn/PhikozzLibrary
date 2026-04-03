@@ -3,7 +3,7 @@ using System;
 
 namespace PhikozzLibrary
 {
-    public class GameManager : SingletonGlobal<GameManager>, IGameService, IPreinitialize
+    public class GameManager : SingletonGlobal<GameManager>, IGameService, IInitializable
     {
         private eGameState currentState;
 
