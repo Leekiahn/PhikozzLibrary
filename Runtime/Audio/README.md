@@ -93,9 +93,6 @@ bool isPlaying = Global.Audio.IsPlayingBGM;
 따라서 `AudioManager`를 사용하는 프리팹 또는 오브젝트에서  
 인스펙터를 통해 각 용도에 맞는 `AudioSource`를 연결해 두는 것이 좋습니다.
 
-`[RequireComponent(typeof(AudioSource))]`는 최소 하나의 `AudioSource` 존재만 보장하므로,  
-실제 사용 시에는 BGM/SFX용 소스를 명시적으로 구성하는 편이 안전합니다.
-
 ---
 
 ## 관련 파일
