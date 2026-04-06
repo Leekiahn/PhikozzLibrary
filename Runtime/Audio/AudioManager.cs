@@ -6,10 +6,10 @@ namespace PhikozzLibrary
     [RequireComponent(typeof(AudioSource))]
     public class AudioManager : SingletonGlobal<AudioManager>, IAudioService, IInitializable
     {
-        [SerializeField] private AudioSource bgmSource;
-        [SerializeField] private AudioSource sfxSource;
+        [SerializeField] private AudioSource _bgmSource;
+        [SerializeField] private AudioSource _sfxSource;
 
-        public bool IsPlayingBGM => bgmSource.isPlaying;
+        public bool IsPlayingBGM => _bgmSource.isPlaying;
 
         public bool Init()
         {
@@ -29,52 +29,52 @@ namespace PhikozzLibrary
 
         public void PlayBGM(AudioClip clip, bool loop = true)
         {
-            bgmSource.clip = clip;
-            bgmSource.loop = loop;
-            bgmSource.Play();
+            _bgmSource.clip = clip;
+            _bgmSource.loop = loop;
+            _bgmSource.Play();
         }
 
         public void PlaySFX(AudioClip clip)
         {
-            sfxSource.PlayOneShot(clip);
+            _sfxSource.PlayOneShot(clip);
         }
 
         public void StopBGM()
         {
-            bgmSource.Stop();
-            bgmSource.clip = null;
+            _bgmSource.Stop();
+            _bgmSource.clip = null;
         }
 
         public void PauseBGM()
         {
-            bgmSource.Pause();
+            _bgmSource.Pause();
         }
 
         public void ResumeBGM()
         {
-            bgmSource.UnPause();
+            _bgmSource.UnPause();
         }
 
         public void SetBGMVolume(float volume = 100f)
         {
             volume /= 100f;
-            bgmSource.volume = Mathf.Clamp01(volume);
+            _bgmSource.volume = Mathf.Clamp01(volume);
         }
 
         public void SetSFXVolume(float volume = 100f)
         {
             volume /= 100f;
-            sfxSource.volume = Mathf.Clamp01(volume);
+            _sfxSource.volume = Mathf.Clamp01(volume);
         }
 
         public void MuteBGM(bool mute)
         {
-            bgmSource.mute = mute;
+            _bgmSource.mute = mute;
         }
 
         public void MuteSFX(bool mute)
         {
-            sfxSource.mute = mute;
+            _sfxSource.mute = mute;
         }
     }
 }
