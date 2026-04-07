@@ -1,15 +1,15 @@
 using UnityEngine;
-using UnityEngine.Pool;
 
 namespace PhikozzLibrary
 {
     public interface IPoolService
     {
-        void CreatePool<T>(T prefab, int defaultCapacity, int maxSize) where T : MonoBehaviour, IPoolObject;
-        ObjectPool<T> Get<T>(T prefab) where T : MonoBehaviour, IPoolObject;
-        void Release<T>(T prefab) where T : MonoBehaviour, IPoolObject;
-        void ReleaseAll<T>(T prefab) where T : MonoBehaviour, IPoolObject;
-        void DestroyAll<T>(T prefab) where T : MonoBehaviour, IPoolObject;
-        ObjectPool<T> GetPool<T>(T prefab) where T : MonoBehaviour, IPoolObject;
+        void CreatePool<T>(T prefab, Transform parent, int size) where T : BasePoolObject;
+        void Spawn<T>(T prefab) where T : BasePoolObject;
+        void Spawn<T>(T prefab, int count) where T : BasePoolObject;
+        void Despawn<T>(T prefab) where T : BasePoolObject;
+        void Despawn<T>(T prefab, int count) where T : BasePoolObject;
+        void DespawnAll<T>(T prefab) where T : BasePoolObject;
+        void DestroyPool<T>(T prefab) where T : BasePoolObject;
     }
 }

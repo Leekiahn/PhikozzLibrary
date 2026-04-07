@@ -1,17 +1,14 @@
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.Pool;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace PhikozzLibrary
 {
     public class PoolManager : SingletonGlobal<PoolManager>, IPoolService, IInitializable
     {
-        private Dictionary<string, object> _pools = new Dictionary<string, object>();
-        private Dictionary<string, HashSet<MonoBehaviour>>
-            _activeObjects = new Dictionary<string, HashSet<MonoBehaviour>>();
-
+        private readonly Dictionary<Type, Queue<BasePoolObject>> _pools = new Dictionary<Type, Queue<BasePoolObject>>();
+        private readonly Dictionary<Type, List<BasePoolObject>> _activePools = new Dictionary<Type, List<BasePoolObject>>();
+        
         public bool Init()
         {
             try
@@ -26,123 +23,116 @@ namespace PhikozzLibrary
             }
         }
 
-        public void CreatePool<T>(T prefab, int defaultCapacity, int maxSize) where T : MonoBehaviour, IPoolObject
+        public void CreatePool<T>(T prefab, Transform parent, int size) where T : BasePoolObject
         {
-            if (!_pools.ContainsKey(prefab.name))
+            Queue<BasePoolObject> pool = new Queue<BasePoolObject>(size);
+            List<BasePoolObject> activeList = new List<BasePoolObject>();
+
+            for (int i = 0; i < size; i++)
             {
-                var pool = new ObjectPool<T>(
-                    createFunc: () =>
-                    {
-                        var obj = Instantiate(prefab);
-                        obj.OnCreate();
-                        return obj;
-                    },
-                    actionOnGet: obj =>
-                    {
-                        obj.gameObject.SetActive(true);
-                        obj.OnGet();
-                        if (!_activeObjects.ContainsKey(prefab.name))
-                            _activeObjects[prefab.name] = new HashSet<MonoBehaviour>();
-                        _activeObjects[prefab.name].Add(obj);
-                    },
-                    actionOnRelease: obj =>
-                    {
-                        obj.gameObject.SetActive(false);
-                        obj.OnRelease();
-                        _activeObjects[prefab.name].Remove(obj);
-                    },
-                    actionOnDestroy: obj =>
-                    {
-                        if (obj != null)
-                        {
-                            obj.OnDestroy();
-                            Destroy(obj.gameObject);
-                        }
-                    },
-                    collectionCheck: false,
-                    defaultCapacity: defaultCapacity,
-                    maxSize: maxSize
-                );
-                _pools.Add(prefab.name, pool);
+                T instance = Instantiate(prefab, parent);
+                instance.OnCreate();
+                pool.Enqueue(instance);
+            }
+
+            _pools.Add(typeof(T), pool);
+            _activePools.Add(typeof(T), activeList);
+        }
+        
+
+        public void Spawn<T>(T prefab) where T : BasePoolObject
+        {
+            if (_pools.TryGetValue(typeof(T), out Queue<BasePoolObject> pool) && pool.Count > 0)
+            {
+                BasePoolObject obj = pool.Dequeue();
+                obj.OnSpawn();
+                _activePools[typeof(T)].Add(obj);
             }
         }
 
-        public ObjectPool<T> Get<T>(T prefab) where T : MonoBehaviour, IPoolObject
+        public void Spawn<T>(T prefab, int count) where T : BasePoolObject
         {
-            if (_pools.TryGetValue(prefab.name, out var pool))
+            if (_pools.TryGetValue(typeof(T), out Queue<BasePoolObject> pool) && pool.Count >= count)
             {
-                return pool as ObjectPool<T>;
-            }
-            else
-            {
-                Debug.LogError($"해당 프리팹에 대한 풀을 찾을 수 없습니다: {prefab.name}. 먼저 풀을 생성해주세요.");
-                return null;
-            }
-        }
-
-        public void Release<T>(T prefab) where T : MonoBehaviour, IPoolObject
-        {
-            if (_activeObjects.TryGetValue(prefab.name, out var set) && set.Count > 0)
-            {
-                var obj = set.FirstOrDefault() as T;
-                if (obj != null)
-                    Get(prefab).Release(obj);
-            }
-            else
-            {
-                Debug.LogWarning($"{prefab.name}에 대한 활성화된 객체가 없습니다. 풀에서 객체를 가져와서 사용한 후에 릴리스해주세요.");
-            }
-        }
-
-        public void ReleaseAll<T>(T prefab) where T : MonoBehaviour, IPoolObject
-        {
-            if (_activeObjects.TryGetValue(prefab.name, out var set))
-            {
-                var copy = set.ToList();
-                foreach (var obj in copy)
+                for (int i = 0; i < count; i++)
                 {
-                    Get(prefab).Release(obj as T);
+                    BasePoolObject obj = pool.Dequeue();
+                    obj.OnSpawn();
+                    _activePools[typeof(T)].Add(obj);
+                }
+            }
+        }
+
+
+        public void Despawn<T>(T prefab) where T : BasePoolObject
+        {
+            if (_activePools.TryGetValue(typeof(T), out List<BasePoolObject> activeList) && activeList.Count > 0)
+            {
+                int lastIndex = activeList.Count - 1;
+                BasePoolObject obj = activeList[lastIndex];
+                activeList.RemoveAt(lastIndex);
+
+                obj.OnDespawn();
+                _pools[typeof(T)].Enqueue(obj);
+            }
+        }
+
+        public void Despawn<T>(T prefab, int count) where T : BasePoolObject
+        {
+            if (_activePools.TryGetValue(typeof(T), out List<BasePoolObject> activeList) && activeList.Count >= count)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    int lastIndex = activeList.Count - 1;
+                    BasePoolObject obj = activeList[lastIndex];
+                    activeList.RemoveAt(lastIndex);
+
+                    obj.OnDespawn();
+                    _pools[typeof(T)].Enqueue(obj);
+                }
+            }
+        }
+
+
+        public void DespawnAll<T>(T prefab) where T : BasePoolObject
+        {
+            if (_activePools.TryGetValue(typeof(T), out List<BasePoolObject> activeList))
+            {
+                for (int i = activeList.Count - 1; i >= 0; i--)
+                {
+                    BasePoolObject obj = activeList[i];
+                    obj.OnDespawn();
+                    _pools[typeof(T)].Enqueue(obj);
                 }
 
-                set.Clear();
+                activeList.Clear();
             }
         }
 
-        public void DestroyAll<T>(T prefab) where T : MonoBehaviour, IPoolObject
-        {
-            if (_pools.TryGetValue(prefab.name, out var pool))
-            {
-                var objectPool = pool as ObjectPool<T>;
-                objectPool.Clear();
-                _pools.Remove(prefab.name);
-            }
 
-            if (_activeObjects.TryGetValue(prefab.name, out var set))
+        public void DestroyPool<T>(T prefab) where T : BasePoolObject
+        {
+            if (_pools.TryGetValue(typeof(T), out Queue<BasePoolObject> pool))
             {
-                foreach (var obj in set)
+                while (pool.Count > 0)
                 {
-                    if (obj != null)
-                    {
-                        (obj as T).OnDestroy();
-                        Destroy(obj.gameObject);
-                    }
+                    BasePoolObject obj = pool.Dequeue();
+                    obj.OnDestroy();
+                    Destroy(obj.gameObject);
                 }
 
-                set.Clear();
-                _activeObjects.Remove(prefab.name);
+                _pools.Remove(typeof(T));
             }
-        }
 
-        public ObjectPool<T> GetPool<T>(T prefab) where T : MonoBehaviour, IPoolObject
-        {
-            if (_pools.TryGetValue(prefab.name, out var pool))
+            if (_activePools.TryGetValue(typeof(T), out List<BasePoolObject> activeList))
             {
-                return pool as ObjectPool<T>;
-            }
-            else
-            {
-                Debug.LogError($"해당 프리팹에 대한 풀을 찾을 수 없습니다: {prefab.name}. 먼저 풀을 생성해주세요.");
-                return null;
+                foreach (BasePoolObject obj in activeList)
+                {
+                    obj.OnDestroy();
+                    Destroy(obj.gameObject);
+                }
+
+                _activePools.Remove(typeof(T));
             }
         }
     }
