@@ -6,8 +6,8 @@ namespace PhikozzLibrary
 {
     public class PoolManager : SingletonGlobal<PoolManager>, IPoolService, IInitializable
     {
-        private readonly Dictionary<Type, Queue<BasePoolObject>> _pools = new Dictionary<Type, Queue<BasePoolObject>>();
-        private readonly Dictionary<Type, List<BasePoolObject>> _activePools = new Dictionary<Type, List<BasePoolObject>>();
+        private readonly Dictionary<string, Queue<BasePoolObject>> _pools = new Dictionary<string, Queue<BasePoolObject>>();
+        private readonly Dictionary<string, List<BasePoolObject>> _activePools = new Dictionary<string, List<BasePoolObject>>();
         
         public bool Init()
         {
@@ -23,8 +23,13 @@ namespace PhikozzLibrary
             }
         }
 
-        public void CreatePool<T>(T prefab, Transform parent, int size) where T : BasePoolObject
+        public void CreatePool<T>(string key, T prefab, Transform parent, int size) where T : BasePoolObject
         {
+            if  (_pools.ContainsKey(key))
+            {
+                return;
+            }
+            
             Queue<BasePoolObject> pool = new Queue<BasePoolObject>(size);
             List<BasePoolObject> activeList = new List<BasePoolObject>();
 
@@ -35,74 +40,86 @@ namespace PhikozzLibrary
                 pool.Enqueue(instance);
             }
 
-            _pools.Add(typeof(T), pool);
-            _activePools.Add(typeof(T), activeList);
+            _pools.Add(key, pool);
+            _activePools.Add(key, activeList);
         }
-        
 
-        public void Spawn<T>(T prefab) where T : BasePoolObject
+
+        public T Spawn<T>(string key) where T : BasePoolObject
         {
-            if (_pools.TryGetValue(typeof(T), out Queue<BasePoolObject> pool) && pool.Count > 0)
+            if (_pools.TryGetValue(key, out Queue<BasePoolObject> pool) && pool.Count > 0)
             {
                 BasePoolObject obj = pool.Dequeue();
                 obj.OnSpawn();
-                _activePools[typeof(T)].Add(obj);
+                _activePools[key].Add(obj);
+                
+                return (T)obj;
             }
-        }
-
-        public void Spawn<T>(T prefab, int count) where T : BasePoolObject
-        {
-            if (_pools.TryGetValue(typeof(T), out Queue<BasePoolObject> pool) && pool.Count >= count)
+            else
             {
-                for (int i = 0; i < count; i++)
-                {
-                    BasePoolObject obj = pool.Dequeue();
-                    obj.OnSpawn();
-                    _activePools[typeof(T)].Add(obj);
-                }
+                return null;
+            }
+        }
+
+        public T Spawn<T>(string key, Vector3 position) where T : BasePoolObject
+        {
+            if (_pools.TryGetValue(key, out Queue<BasePoolObject> pool) && pool.Count > 0)
+            {
+                BasePoolObject obj = pool.Dequeue();
+                obj.OnSpawn();
+                obj.transform.position = position;
+                _activePools[key].Add(obj);
+                
+                return (T)obj;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public T Spawn<T>(string key, Vector3 position, Vector3 rotation) where T : BasePoolObject
+        {
+            if (_pools.TryGetValue(key, out Queue<BasePoolObject> pool) && pool.Count > 0)
+            {
+                BasePoolObject obj = pool.Dequeue();
+                obj.OnSpawn();
+                obj.transform.position = position;
+                obj.transform.rotation = Quaternion.Euler(rotation);
+                _activePools[key].Add(obj);
+                
+                return (T)obj;
+            }
+            else
+            {
+                return null;
             }
         }
 
 
-        public void Despawn<T>(T prefab) where T : BasePoolObject
+        public void Despawn(string key)
         {
-            if (_activePools.TryGetValue(typeof(T), out List<BasePoolObject> activeList) && activeList.Count > 0)
+            if (_activePools.TryGetValue(key, out List<BasePoolObject> activeList) && activeList.Count > 0)
             {
                 int lastIndex = activeList.Count - 1;
                 BasePoolObject obj = activeList[lastIndex];
                 activeList.RemoveAt(lastIndex);
 
                 obj.OnDespawn();
-                _pools[typeof(T)].Enqueue(obj);
-            }
-        }
-
-        public void Despawn<T>(T prefab, int count) where T : BasePoolObject
-        {
-            if (_activePools.TryGetValue(typeof(T), out List<BasePoolObject> activeList) && activeList.Count >= count)
-            {
-                for (int i = 0; i < count; i++)
-                {
-                    int lastIndex = activeList.Count - 1;
-                    BasePoolObject obj = activeList[lastIndex];
-                    activeList.RemoveAt(lastIndex);
-
-                    obj.OnDespawn();
-                    _pools[typeof(T)].Enqueue(obj);
-                }
+                _pools[key].Enqueue(obj);
             }
         }
 
 
-        public void DespawnAll<T>(T prefab) where T : BasePoolObject
+        public void DespawnAll(string key)
         {
-            if (_activePools.TryGetValue(typeof(T), out List<BasePoolObject> activeList))
+            if (_activePools.TryGetValue(key, out List<BasePoolObject> activeList))
             {
                 for (int i = activeList.Count - 1; i >= 0; i--)
                 {
                     BasePoolObject obj = activeList[i];
                     obj.OnDespawn();
-                    _pools[typeof(T)].Enqueue(obj);
+                    _pools[key].Enqueue(obj);
                 }
 
                 activeList.Clear();
@@ -110,9 +127,9 @@ namespace PhikozzLibrary
         }
 
 
-        public void DestroyPool<T>(T prefab) where T : BasePoolObject
+        public void DestroyPool(string key)
         {
-            if (_pools.TryGetValue(typeof(T), out Queue<BasePoolObject> pool))
+            if (_pools.TryGetValue(key, out Queue<BasePoolObject> pool))
             {
                 while (pool.Count > 0)
                 {
@@ -121,10 +138,10 @@ namespace PhikozzLibrary
                     Destroy(obj.gameObject);
                 }
 
-                _pools.Remove(typeof(T));
+                _pools.Remove(key);
             }
 
-            if (_activePools.TryGetValue(typeof(T), out List<BasePoolObject> activeList))
+            if (_activePools.TryGetValue(key, out List<BasePoolObject> activeList))
             {
                 foreach (BasePoolObject obj in activeList)
                 {
@@ -132,7 +149,7 @@ namespace PhikozzLibrary
                     Destroy(obj.gameObject);
                 }
 
-                _activePools.Remove(typeof(T));
+                _activePools.Remove(key);
             }
         }
     }

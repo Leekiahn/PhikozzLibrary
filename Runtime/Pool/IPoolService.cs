@@ -4,12 +4,12 @@ namespace PhikozzLibrary
 {
     public interface IPoolService
     {
-        void CreatePool<T>(T prefab, Transform parent, int size) where T : BasePoolObject;
-        void Spawn<T>(T prefab) where T : BasePoolObject;
-        void Spawn<T>(T prefab, int count) where T : BasePoolObject;
-        void Despawn<T>(T prefab) where T : BasePoolObject;
-        void Despawn<T>(T prefab, int count) where T : BasePoolObject;
-        void DespawnAll<T>(T prefab) where T : BasePoolObject;
-        void DestroyPool<T>(T prefab) where T : BasePoolObject;
+        void CreatePool<T>(string key, T prefab, Transform parent, int size) where T : BasePoolObject;
+        T Spawn<T>(string key) where T : BasePoolObject;
+        T Spawn<T>(string key, Vector3 position) where T : BasePoolObject;
+        T Spawn<T>(string key, Vector3 position, Vector3 rotation) where T : BasePoolObject;
+        void Despawn(string key);
+        void DespawnAll(string key);
+        void DestroyPool(string key);
     }
 }
