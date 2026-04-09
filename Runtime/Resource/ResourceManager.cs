@@ -10,9 +10,8 @@ namespace PhikozzLibrary
 {
     public class ResourceManager : SingletonGlobal<ResourceManager>, IResourceService, IInitializable
     {
-        private Dictionary<string, AsyncOperationHandle> _loadedHandles = new();
-        private Dictionary<string, List<AsyncOperationHandle>> _loadedHandleLists = new();
-
+        private readonly Dictionary<string, AsyncOperationHandle> _assetHandles = new Dictionary<string, AsyncOperationHandle>();
+        private readonly Dictionary<string, AsyncOperationHandle> _labelHandles = new Dictionary<string, AsyncOperationHandle>();
         public bool Init()
         {
             try
@@ -26,54 +25,82 @@ namespace PhikozzLibrary
                 return false;
             }
         }
-
-        public async UniTask<T> LoadAsync<T>(string key) where T : Object
+        
+        public async UniTask<T> Load<T>(string key) where T : Object
         {
-            var handle = Addressables.LoadAssetAsync<T>(key);
-            await handle.Task;
-
+            if (_assetHandles.TryGetValue(key, out AsyncOperationHandle handle))
+            {
+                return handle.Result as T;
+            }
+            
+            handle = Addressables.LoadAssetAsync<T>(key);
+            await handle.ToUniTask();
+            
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
-                _loadedHandles[key] = handle;
-                return handle.Result;
+                _assetHandles[key] = handle;
+                return handle.Result as T;
             }
-
+            
             return null;
         }
 
-        public async UniTask<List<T>> LoadAllAsync<T>(string label) where T : Object
+        public async UniTask<List<T>> LoadLabel<T>(string label) where T : Object
         {
-            var handle = Addressables.LoadAssetsAsync<T>(label, null);
-            await handle.Task;
-
+            if (_labelHandles.TryGetValue(label, out AsyncOperationHandle handle))
+            {
+                return handle.Result as List<T>;
+            }
+            
+            handle = Addressables.LoadAssetsAsync<T>(label, null);
+            await handle.ToUniTask();
+            
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
-                _loadedHandleLists[label] = new List<AsyncOperationHandle> { handle };
-                return new List<T>(handle.Result);
+                _labelHandles[label] = handle;
+                return handle.Result as List<T>;
             }
-
+            
             return null;
         }
-
-        public void ReleaseByKey(string key)
+        
+        public async UniTask Unload(string key)
         {
-            if (_loadedHandles.TryGetValue(key, out var handle))
+            if (_assetHandles.TryGetValue(key, out AsyncOperationHandle handle))
             {
                 Addressables.Release(handle);
-                _loadedHandles.Remove(key);
+                _assetHandles.Remove(key);
             }
         }
 
-        public void ReleaseByLabel(string label)
+        public async UniTask UnloadLabel(string label)
         {
-            if (_loadedHandleLists.TryGetValue(label, out var handleList))
+            if (_labelHandles.TryGetValue(label, out AsyncOperationHandle handle))
             {
-                foreach (var handle in handleList)
-                {
-                    Addressables.Release(handle);
-                }
-                _loadedHandleLists.Remove(label);
+                Addressables.Release(handle);
+                _labelHandles.Remove(label);
             }
+        }
+        
+        public UniTask UnloadAll()
+        {
+            List<AsyncOperationHandle> assetHandles = new List<AsyncOperationHandle>(_assetHandles.Values);
+            List<AsyncOperationHandle> labelHandles = new List<AsyncOperationHandle>(_labelHandles.Values);
+
+            for (int i = 0; i < assetHandles.Count; i++)
+            {
+                Addressables.Release(assetHandles[i]);
+            }
+
+            for (int i = 0; i < labelHandles.Count; i++)
+            {
+                Addressables.Release(labelHandles[i]);
+            }
+
+            _assetHandles.Clear();
+            _labelHandles.Clear();
+
+            return UniTask.CompletedTask;
         }
     }
 }

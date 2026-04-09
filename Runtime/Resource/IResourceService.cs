@@ -6,9 +6,7 @@ namespace PhikozzLibrary
 {
     public interface IResourceService
     {
-        UniTask<T> LoadAsync<T>(string path) where T : Object;
-        UniTask<List<T>> LoadAllAsync<T>(string label) where T : Object;
-        void ReleaseByKey(string key);
-        void ReleaseByLabel(string label);
+        public UniTask<T> Load<T>(string key) where T : Object;
+        public UniTask<List<T>> LoadLabel<T>(string label) where T : Object;
     }
 }
